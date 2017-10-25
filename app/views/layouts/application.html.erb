@@ -6,9 +6,44 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <style>
+      footer {
+        background-color: black;
+        text-align: center;
+        height: 50px;
+        line-height: 50px;
+        color: #eee;
+      }
+    </style>
   </head>
 
   <body>
-    <%= yield %>
+    <nav class="navbar navbar-inverse">
+
+      <div class="navbar-header">
+        <a href="/static_page/index" class="navbar-brand">H-ASH</a>
+        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+          <span class="sr-only">Toggle Navbar</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/static_page/index">Home</a></li>
+          <li><a href="/static_page/about">About</a></li>
+          <li><a href="/static_page/contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav><!-- end - navbar -->
+    <%= yield %> <!-- end - content filled by ruby (yeild) -->
+    <footer class="container-fluid">
+      Copyright &copy; 2017, Hamza Ashour
+    </footer><!-- end - footer -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </body>
 </html>
