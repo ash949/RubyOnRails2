@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>App2</title>
-    <%= csrf_meta_tags %>
+    <title>H-ASH PC Store</title>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
-    <style>
-      footer {
-        background-color: black;
-        text-align: center;
-        height: 50px;
-        line-height: 50px;
-        color: #eee;
-      }
-    </style>
+    
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
   </head>
 
   <body>
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
 
       <div class="navbar-header">
         <a href="/static_page/index" class="navbar-brand">H-ASH</a>
@@ -43,7 +38,5 @@
     <footer class="container-fluid">
       Copyright &copy; 2017, Hamza Ashour
     </footer><!-- end - footer -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </body>
 </html>
