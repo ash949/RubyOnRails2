@@ -3,6 +3,8 @@
   <head>
     <title>H-ASH PC Store</title>
 
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
@@ -31,7 +33,14 @@
           <li><a href="/static_page/index">Home</a></li>
           <li><a href="/static_page/about">About</a></li>
           <li><a href="/static_page/contact">Contact</a></li>
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Products
+            <ul class="dropdown-menu">
+              <li><a href="/products">Show all</a></li>
+              <li><%= link_to 'New Product', new_product_path %></li>
+            </ul>
+          </a></li>
         </ul>
+        
       </div>
     </nav><!-- end - navbar -->
     <%= yield %> <!-- end - content filled by ruby (yeild) -->

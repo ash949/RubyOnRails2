@@ -6,69 +6,47 @@
   <h3> This time is from ruby(server) <%= Time.now %> </h3>
   <p> static_page content will replace <code>yield</code> in application.html.erb </p>
   <hr>
+  <div id="main-carousel" class="carousel slide row" data-ride="carousel">
+					<!-- Indicators -->
+					<ol class="carousel-indicators">
+						<li data-target="#main-carousel" data-slide-to="0" class="active"></li>
+						<li data-target="#main-carousel" data-slide-to="1"></li>
+						<li data-target="#main-carousel" data-slide-to="2"></li>
+					</ol>
+				
+					<!-- Wrapper for slides -->
+					<div class="carousel-inner" role="listbox">
+						<div class="item active">
+							<img src="img/slide1.jpg" alt="Slide 1">
+							<div class="carousel-caption">
+								<h1>Welcome, I am Hamza ...</h1>
+								
+							</div>
+						</div>
+						<div class="item">
+							<img src="img/slide3.jpg" alt="Slide 2">
+							<div class="carousel-caption">
+								<h1>Hard worker<h1>
+							</div>
+						</div>
+						<div class="item">
+							<img src="img/bg-about.jpg" alt="Slide 3">
+							<div class="carousel-caption">
+								<h1>Professional</h1>
+							</div>
+						</div>
+					</div>
+				
+					<!-- Controls -->
+					<a class="left carousel-control" href="#main-carousel" role="button" data-slide="prev">
+						<span class="glyphicon glyphicon-chevron-left text-on-dark-bg" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="right carousel-control" href="#main-carousel" role="button" data-slide="next">
+						<span class="glyphicon glyphicon-chevron-right text-on-dark-bg" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
 </section><!-- end - main section -->
 
-<section id="prodcut-list" class="product-list container">
-  <ul class="row">
-    <li class="col-sm-4">
-      <div>
-        <%= image_tag("product.jpg", {class: "img-responsive", alt: "Lenovo123"}) %>
-        <a href="www.google.com" target="_blank"><h3>Lenovo 123123</h3></a>
-        <ul class="product-features">
-          <li>i7</li>
-          <li>8 GB RAM</li>
-          <li>GTX 1060</li>
-        </ul>
-        <a class="btn btn-primary">Add to Cart</a>
-      </div>
-    </li>
-    <li class="col-sm-4">
-      <div>
-        <%= image_tag("product.jpg", {class: "img-responsive", alt: "Lenovo123"}) %>
-        <a href="www.google.com" target="_blank"><h3>Lenovo 123123</h3></a>
-        <ul class="product-features">
-          <li>i7</li>
-          <li>8 GB RAM</li>
-          <li>GTX 1060</li>
-        </ul>
-        <a class="btn btn-primary">Add to Cart</a>
-      </div>
-    </li>
-    <li class="col-sm-4">
-      <div>
-        <%= image_tag("product.jpg", {class: "img-responsive", alt: "Lenovo123"}) %>
-        <a href="www.google.com" target="_blank"><h3>Lenovo 123123</h3></a>
-        <ul class="product-features">
-          <li>i7</li>
-          <li>8 GB RAM</li>
-          <li>GTX 1060</li>
-        </ul>
-        <a class="btn btn-primary">Add to Cart</a>
-      </div>
-    </li>
-    <li class="col-sm-4">
-      <div>
-        <%= image_tag("product.jpg", {class: "img-responsive", alt: "Lenovo123"}) %>
-        <a href="www.google.com" target="_blank"><h3>Lenovo 123123</h3></a>
-        <ul class="product-features">
-          <li>i7</li>
-          <li>8 GB RAM</li>
-          <li>GTX 1060</li>
-        </ul>
-        <a class="btn btn-primary">Add to Cart</a>
-      </div>
-    </li>
-    <li class="col-sm-4">
-      <div>
-        <%= image_tag("product.jpg", {class: "img-responsive", alt: "Lenovo123"}) %>
-        <a href="www.google.com" target="_blank"><h3>Lenovo 123123</h3></a>
-        <ul class="product-features">
-          <li>i7</li>
-          <li>8 GB RAM</li>
-          <li>GTX 1060</li>
-        </ul>
-        <a class="btn btn-primary">Add to Cart</a>
-      </div>
-    </li>
-  </ul>
-</section>
+

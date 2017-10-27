@@ -1,0 +1,23 @@
+<section id="product-list" class="container">
+  <header>
+    <h1>Products</h1>
+  </header>
+  <ul class="product-list">
+    <% @products.each do |product| %>
+    <li class="col-xs-12 col-sm-4">
+      <div>
+        <a class="product-image" href="/products/<%= product.id%>"><%= image_tag product.image_url, class: "img-responsive", alt: product.description%></a>
+        <a class="product-name" href="/products/<%= product.id%>"><p><%= product.name %></p></a>
+        <p class="product-description"><%= product.description %></p>
+        <ul class="product-feature-list">
+          <% product.features.split("|||").each do |feature| %>
+          <li><%= feature %></li>
+          <% end %>
+        </ul>
+        <p class="product-price">Price: <%= product.price %>$</p>
+        <button class="btn btn-primary">Add To Cart</button>
+      </div>
+    </li>
+    <% end %>
+  </ul>
+</section><!-- end - product-lists -->

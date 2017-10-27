@@ -1,0 +1,274 @@
+$background-color-1-vhi: #000E1C;
+$background-color-1-hi: #002447;
+$background-color-1-md: #004384;
+$background-color-1-lw: #0155A7;
+
+
+$background-color-2-vhi: rgb(150, 0, 0);
+$background-color-2-hi: rgb(150, 30, 30);
+$background-color-2-md: rgb(150, 60, 60);
+$background-color-2-lw: rgb(150, 90, 90);
+
+$font-color-1-vhi: #eee;
+$font-color-1-hi: #aaa;
+$font-color-1-md: #777;
+$font-color-1-lw: #333;
+
+$font-color-2-vhi: #331600;
+$font-color-2-hi: #5A2D0B;
+$font-color-2-md: #A76D43;
+$font-color-2-lw: #D59F78;
+
+$separator-lg: 3em;
+$separator-md: 2em;
+$separator-sm: 1em;
+
+// Background Colors ==========================================
+.background-color-1-vhi {
+  background-color: $background-color-1-vhi !important;
+}
+
+.background-color-1-hi {
+  background-color: $background-color-1-hi !important;
+}
+
+.background-color-1-md {
+  background-color: $background-color-1-md !important;
+}
+
+.background-color-1-lw {
+  background-color: $background-color-1-lw !important;
+}
+
+.background-color-2-vhi {
+  background-color: $background-color-2-vhi !important;
+}
+
+.background-color-2-hi {
+  background-color: $background-color-2-hi !important;
+}
+
+.background-color-2-md {
+  background-color: $background-color-2-md !important;
+}
+
+.background-color-2-lw {
+  background-color: $background-color-2-lw !important;
+}
+
+// Font colors ==========================================
+.font-color-1-vhi {
+  color: $font-color-1-vhi !important;
+}
+
+.font-color-1-hi {
+  color: $font-color-1-hi !important;
+}
+
+.font-color-1-md {
+  color: $font-color-1-md !important;
+}
+
+.font-color-1-lw {
+  color: $font-color-1-lw !important;
+}
+
+.font-color-2-vhi {
+  color: $font-color-2-vhi !important;
+}
+
+.font-color-2-hi {
+  color: $font-color-2-hi !important;
+}
+
+.font-color-2-md {
+  color: $font-color-2-md !important;
+}
+
+.font-color-2-lw {
+  color: $font-color-2-lw !important;
+}
+
+// Text Style ==========================================
+.text-center {
+  text-align: center !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.font-size-4{
+  font-size: 4em !important;
+}
+
+.font-size-3-5{
+  font-size: 3.5em !important;
+}
+
+.font-size-3{
+  font-size: 3em !important;
+}
+
+.font-size-2-5{
+  font-size: 2.5em !important;
+}
+
+.font-size-2{
+  font-size: 2em !important;
+}
+
+.font-size-1-5{
+  font-size: 1.5em !important;
+}
+
+.font-size-1{
+  font-size: 1em !important;
+}
+
+.font-size-0-8{
+  font-size: 0.8em !important;
+}
+
+.font-bold-hi{
+  font-weight: 900 !important;
+}
+
+.font-bold-md{
+  font-weight: 500 !important;
+}
+
+.font-bold-normal{
+  font-weight: normal !important;
+}
+
+// Separators ===========================================
+.margin-bottom-lg{
+  margin-bottom: $separator-lg !important;
+}
+
+.margin-bottom-md{
+  margin-bottom: $separator-md !important;
+}
+
+.margin-bottom-sm{
+  margin-bottom: $separator-sm !important;
+}
+
+.margin-top-lg{
+  margin-top: $separator-lg !important;
+}
+
+.margin-top-md{
+  margin-top: $separator-md !important;
+}
+
+.margin-top-sm{
+  margin-top: $separator-sm !important;
+}
+
+.padding-bottom-lg{
+  margin-bottom: $separator-lg !important;
+}
+
+.padding-bottom-md{
+  padding-bottom: $separator-md !important;
+}
+
+.padding-bottom-sm{
+  padding-bottom: $separator-sm !important;
+}
+
+.padding-top-lg{
+  padding-top: $separator-lg !important;
+}
+
+.padding-top-md{
+  padding-top: $separator-md !important;
+}
+
+.padding-top-sm{
+  padding-top: $separator-sm !important;
+}
+
+// Extra Style ==========================================
+.box-shadow-thick {
+  box-shadow: 2px 2px 3px $font-color-1-vhi !important;
+}
+
+.box-shadow-thick {
+  box-shadow: 1px 1px 2px $font-color-1-vhi !important;
+}
+
+.border-radius-removed {
+  border-radius: 0 !important;
+}
+
+.display-block {
+  display: block !important;
+}
+
+.block-center {
+  margin: 0 auto !important;
+}
+
+
+// General Styling =======================================
+* {
+  font-family: 'Roboto Condensed', 'Helvetica', 'Arial' ,sans-serif;
+}
+
+p,
+span,
+h1,h2,h3,h4,h5,h6 {
+  @extend .font-color-1-lw;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row-is-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row-is-flex > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+
+header{
+  @extend .margin-bottom-lg;
+  @extend .margin-bottom-md;
+}
+
+.border-wrapper {
+  padding: 1em;
+  border: 1px solid $font-color-1-hi;
+}
+
+// Navbar Style ==========================================
+.navbar {
+  @extend .background-color-1-vhi;
+  @extend .border-radius-removed;
+}
+
+// Footer Style ==========================================
+footer {
+  @extend .background-color-1-vhi;
+  @extend .font-color-1-vhi;
+  @extend .text-center;
+  height: 50px;
+  line-height: 50px;
+}
