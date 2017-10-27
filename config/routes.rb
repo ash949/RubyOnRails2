@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   
   resources :products
-  # root 'static_pages#index'
+
+  resources :orders, only: [:index, :show, :create, :destroy]
+  
   root to: 'static_page#index'
   
   get 'static_page/index'
