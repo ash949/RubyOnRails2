@@ -27,7 +27,7 @@
 </div>
 
 <div class="field form-group">
-  <%= form.label :features %>
+  <%= (form.label :features) + " (use ||| to separate between features)" %>
   <%= form.text_area :features, id: :product_features, class: "form-control" %>
 </div>
 
@@ -37,7 +37,7 @@
 </div>
 
 <div class="field form-group">
-  <%= form.label :showcase_images %>
+  <%= (form.label :showcase_images) + " (use ||| to separate between images)" %>
   <%= form.text_area :showcase_images, id: :product_showcase_images, class: "form-control" %>
 </div>
 
