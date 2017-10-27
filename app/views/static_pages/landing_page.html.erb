@@ -1,0 +1,23 @@
+<section id="featured-product" class="container">
+  <header>
+    <h1>(Place Holder content and style) Featured Product:</h1>
+  </header>
+  <strong>Name: <%= @featured_product.name %></strong>
+  <hr>
+  <strong>Showcase: </strong><%= image_tag @featured_product.image_url %>
+  <hr>
+  <strong>Description: </strong><%= @featured_product.description %>
+  <hr>
+  <strong>Features: </strong>
+  <ul>
+    <% @featured_product.features.split("|||").each do |feature| %>
+    <li><%= feature %></li>
+    <% end %>
+  </ul>
+  <%= @featured_product.features %>
+  <hr>
+  <strong>Price</strong><%= @featured_product.name + "$" %>
+  <br>
+  <br>
+  <br>
+</section><!-- end - featured product section-->

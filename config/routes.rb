@@ -4,13 +4,13 @@ Rails.application.routes.draw do
 
   resources :orders, only: [:index, :show, :create, :destroy]
   
-  root to: 'static_page#index'
+  root to: 'static_pages#landing_page'
   
-  get 'static_page/index'
+  get 'static_pages/index'
 
-  get 'static_page/about'
+  get 'static_pages/about'
 
-  get 'static_page/contact'
+  get 'static_pages/contact'
 
   
   
