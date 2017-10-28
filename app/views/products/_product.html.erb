@@ -1,0 +1,12 @@
+<div>
+  <a class="product-image" href="/products/<%= product.id%>"><%= image_tag product.image_url, class: "img-responsive", alt: product.description%></a>
+  <a class="product-name" href="/products/<%= product.id%>"><p><%= product.name %></p></a>
+  <p class="product-description"><%= product.description %></p>
+  <ul class="product-feature-list">
+    <% product.features.split("|||").each do |feature| %>
+    <li><%= feature %></li>
+    <% end %>
+  </ul>
+  <p class="product-price">Price: <%= product.price %>$</p>
+  <button class="btn btn-primary">Add To Cart</button>
+</div>

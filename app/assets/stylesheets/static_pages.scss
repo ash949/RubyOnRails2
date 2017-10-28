@@ -1,0 +1,36 @@
+@import 'shared';
+
+#featured_products_carousel {
+  .item{
+    img {
+      @extend .block-center;
+    }
+  }
+  
+  
+  .carousel-control {
+    background-image: none;
+  }
+  .carousel-indicators {
+    bottom: -15%;
+
+    >li{
+      @extend .border-radius-removed;
+      @extend .background-color-1-lw;
+      border-color: $background-color-1-lw;
+    }
+
+    >li.active{
+      @extend .background-color-1-hi;
+    }
+  }
+  
+  .overlay {
+    padding: 1em;
+
+    * {
+      @extend .font-color-1-vhi;
+      margin: 0;
+    }
+  }
+}

@@ -2,21 +2,40 @@
   <header>
     <h1>(Place Holder content and style) Featured Product:</h1>
   </header>
-  <strong>Name: <%= @featured_product.name %></strong>
-  <hr>
-  <strong>Showcase: </strong><%= image_tag @featured_product.image_url %>
-  <hr>
-  <strong>Description: </strong><%= @featured_product.description %>
-  <hr>
-  <strong>Features: </strong>
-  <ul>
-    <% @featured_product.features.split("|||").each do |feature| %>
-    <li><%= feature %></li>
-    <% end %>
-  </ul>
-  <%= @featured_product.features %>
-  <hr>
-  <strong>Price: </strong><%= @featured_product.price.to_s + "$" %>
+
+  <div id="featured_products_carousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <% @featured_products.length.times do |i| %>
+      <li data-target="#carousel-example-generic" data-slide-to="<%= i.to_s %>" class="<%= 'active' if i == 0 %>"></li>
+      <% end %>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <% @featured_products.each_with_index do |featured_product, i| %>
+      <div class="item <%= 'active' if i == 0 %>">
+        <%= image_tag featured_product.image_url, class: "img-responsive", alt: featured_product.description %>
+        <div class="overlay" >
+          <h3><%= featured_product.name%></h3>
+          <p><%= featured_product.description%></p>
+        </div>
+        <div class="carousel-caption">
+        </div>
+      </div>
+      <% end %>
+    </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#featured_products_carousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#featured_products_carousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
   <br>
   <br>
   <br>
