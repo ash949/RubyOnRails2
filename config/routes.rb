@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   
   root to: 'static_pages#landing_page'
   
+  get 'static_pages/', to: 'static_pages#index' 
+
   get 'static_pages/index'
 
   get 'static_pages/about'

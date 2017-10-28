@@ -1,0 +1,72 @@
+// This is a manifest file that'll be compiled into application.js, which will include all the files
+// listed below.
+//
+// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, or any plugin's
+// vendor/assets/javascripts directory can be referenced here using a relative path.
+//
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// compiled file. JavaScript code in this file should be added after the last require_* statement.
+//
+// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
+// about supported directives.
+//
+//= require rails-ujs
+//= require turbolinks
+//= require jquery3
+//= require_tree .
+
+
+
+var initMap;
+var map;
+var changeMapFlag = false;
+initMap = function(){
+  console.log('LOADED');
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 8
+  });
+  $.get('/branches', {}, function(data){
+    localStorage.setItem('branches', JSON.stringify(data) );
+    changeMapFlag = true;
+    for (var i = 0; i < data.length; i++) {
+      var latlng = new google.maps.LatLng(parseFloat(data[i].lat), parseFloat(data[i].lng));
+      if ( i === 0 ){
+        map.setCenter(latlng);
+      }
+      var marker = new google.maps.Marker({
+        position: latlng,
+        icon: '<%= asset_path 'map/marker1.png'%>',
+        animation: google.maps.Animation.DROP,
+        draggable: false
+      });
+      marker.setMap(map);
+    }
+  });
+};
+
+
+
+var changeCoordinates;
+var currentBranch;
+changeCoordinates = function(){
+  console.log("CLICKED");
+  if ( changeMapFlag ){
+    var clickedBranch = $('#map-carousel .item.active').data('branch');
+    var branches = JSON.parse( localStorage.getItem('branches') );
+    for (var i = 0; i < branches.length; i++) {
+      if ( branches[i].name === clickedBranch ){
+        if ( i === branches.length - 1 ){
+          currentBranch = branches[0];
+        }else{
+          currentBranch = branches[i + 1];
+        }
+        var newLatlng = new google.maps.LatLng(currentBranch.lat, currentBranch.lng);
+        map.setCenter(newLatlng);
+      }
+    }
+  }
+};
+
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});

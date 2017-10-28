@@ -37,12 +37,50 @@
 }
 
 // Contact Page =====================================================
-#contact{
-  .row{
+#contact {
+
+  .row {
     @extend .row-is-flex;
+
+    >* {
+      @extend .margin-bottom-lg;
+    }
   }
 
-  #map{
-    height: 100%;
+  #google-map {
+    
+    #map {
+      height: 30em;
+    }
+  }
+  
+}
+
+#map-carousel {
+  @extend .margin-bottom-sm;
+  height: 50px;
+
+  .carousel-inner,
+  .item{
+    @extend .full-height;
+  }
+
+  .item{
+    div {
+      @extend .font-size-1-5;
+      @extend .full-height;
+      @extend .full-width;
+      @extend .text-center;
+      line-height: 50px;
+    }
+  }
+
+  .carousel-control {
+    background-image: none;
+  }
+
+  .glyphicon {
+    @extend .font-size-1;
+    top: 50%;
   }
 }
