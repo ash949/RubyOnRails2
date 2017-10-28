@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171027171309) do
+ActiveRecord::Schema.define(version: 20171028081741) do
+
+  create_table "order_product_records", force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "product_id"
+    t.index ["order_id"], name: "index_order_product_records_on_order_id"
+    t.index ["product_id"], name: "index_order_product_records_on_product_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "user_id"
+    t.decimal "total_cost"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
 
   create_table "products", force: :cascade do |t|
     t.string "name"
@@ -21,6 +34,14 @@ ActiveRecord::Schema.define(version: 20171027171309) do
     t.text "showcase_images"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "password"
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
 end
