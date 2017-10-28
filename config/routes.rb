@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   
   get 'static_pages/index'
 
-  get 'static_pages/', to: 'static_pages#index'
+  get 'static_pages/', to: 'static_pages#index', as: 'static_index'
 
   get 'static_pages/about'
 
