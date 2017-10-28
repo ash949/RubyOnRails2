@@ -10,6 +10,7 @@ Product.delete_all
 Order.delete_all
 User.delete_all
 OrderProductRecord.delete_all
+Branch.delete_all
 
 Product.create([
   {
@@ -50,6 +51,19 @@ User.create([
   {first_name: "hamza", last_name: "ashour", email: "hamzaashoor949@hotmail.com", password: "123"},
   {first_name: "hamza2", last_name: "ashour2", email: "hamzaashoor9492@hotmail.com", password: "123"},
   {first_name: "hamza3", last_name: "ashour3", email: "hamzaashoor9493@hotmail.com", password: "123"},
+])
+
+Branch.create([
+  {
+    name: "Branch 1",
+    lat: 31.5,
+    lng: 31.5
+  },
+  {
+    name: "Branch 2",
+    lat: 32.5,
+    lng: 32.5
+  }
 ])
 
 #ORM
