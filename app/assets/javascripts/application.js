@@ -26,12 +26,22 @@ initMap = function(){
   });
 };
 
+
+
 var changeCoordinates;
-changeCoordinates = function(newCoordinates){
-  map.setCenter( JSON.parse(newCoordinates) );
+changeCoordinates = function(){
+  console.log('CLICKED');
+  branch = $('#map-carousel .item.active').data('branch');
+  $.get('/branches', {branch: branch}, function(data){
+    console.log(data);
+    data.lat = parseFloat(data.lat);
+    data.lng = parseFloat(data.lng);
+    var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+    console.log(data);
+    map.panTo(myLatlng);
+  });
 };
 
-var getCurrentBranch;
-getCurrentBranch = function(){
-  return $('#map-carousel .item.active').index();
-}
+$(document).ready(function(){
+  $('#map-carousel .carousel-control').on('click', changeCoordinates);
+});
