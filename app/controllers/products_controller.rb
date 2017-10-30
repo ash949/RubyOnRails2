@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    if ( params[:search_term].length != 0 )
+    if ( params[:search_term] )
       @products = Product.search(params[:search_term])
     else
       @products = Product.all
