@@ -49,7 +49,12 @@
         <% end %>
       </div>
     </nav><!-- end - navbar -->
+    
+    <% if ( notice ) %>
+    <div class="alert alert-<%= notice[1] %>"><%= notice[2] %></div>
+    <% end %>
     <%= yield %> <!-- end - content filled by ruby (yeild) -->
+    
     <footer class="container-fluid">
       Copyright &copy; 2017, Hamza Ashour
     </footer><!-- end - footer -->

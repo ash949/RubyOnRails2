@@ -47,12 +47,6 @@ Product.create([
   }
 ]);
 
-User.create([
-  {first_name: "hamza", last_name: "ashour", email: "hamzaashoor949@hotmail.com", password: "123"},
-  {first_name: "hamza2", last_name: "ashour2", email: "hamzaashoor9492@hotmail.com", password: "123"},
-  {first_name: "hamza3", last_name: "ashour3", email: "hamzaashoor9493@hotmail.com", password: "123"},
-])
-
 Branch.create([
   {
     name: "Branch 1",
@@ -67,15 +61,15 @@ Branch.create([
 ])
 
 #ORM
-user = User.first
+# user = User.first
 
-order = Order.new
+# order = Order.new
 
-user.orders << order
+# user.orders << order
 
-order.products << Product.limit(4)
+# order.products << Product.limit(4)
 
-User.first.orders.first.products
+# User.first.orders.first.products
 
 
 
