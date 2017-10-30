@@ -27,25 +27,23 @@
       </div>
       <div id="map"></div>
     </div><!-- end - map -->
-    <form id="contact-form" class="col-xs-12 col-sm-6 col-md-6">
-      
+    <%= form_with( url: static_pages_thank_you_url, method: 'post', local: true, id: 'contact-form', class:'col-xs-12 col-sm-6 col-md-6' ) do |form| %>
       <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" class="form-control" placeholder="Your name" title="Fill your name here" data-toggle="tooltip">
+        <%= form.label :name %>
+        <%= form.text_field :name, id: 'contact-name', class: 'form-control', placeholder: 'Your name', title: 'Fill your name here', data: {toggle: 'tooltip'}%>
       </div>
 
       <div class="form-group">
-        <label for="email">Email*</label>
-        <input type="email" id="email" name="email" class="form-control" placeholder="Your Email" title="example@gmail.com (Required)" data-toggle="tooltip" required>
+        <%= form.label :email %>
+        <%= form.text_field :email, id: 'contact-email', type:'email', class: 'form-control', placeholder: 'Your Email', title: 'example@gmail.com (Required)', data: {toggle: 'tooltip'}, required: true %>
       </div>
 
       <div class="form-group">
-        <label for="message">Message</label>
-        <textarea cols="10" id="message" name="message" class="form-control" placeholder="Your message" data-toggle="tooltip" title="Type your message here (Required)" required></textarea>
+        <%= form.label :message %>
+        <%= form.text_area :message, id: 'contact-message', class: 'form-control', placeholder: 'Your message', title: 'Type your message here (Required)', data: {toggle: 'tooltip'}, required: true %>
       </div>
-
-      <button type="submit" class="btn btn-primary">Send Message</button>
-    </form><!-- end - contact - form -->
+      <%= form.submit 'Send Message', class: 'btn btn-primary' %>
+    <% end %>
   </div>
 </section><!-- end - contact section-->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-RkOq-xq-TRZaoVvtptssNQAbvhQ-lJg&callback=initMap"

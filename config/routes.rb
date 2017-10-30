@@ -5,10 +5,10 @@ Rails.application.routes.draw do
   resources :orders, only: [:index, :show, :create, :destroy]
   
   # old root
-  # root to: 'static_pages#landing_page'
+  root 'static_pages#landing_page'
 
   # new root
-  root 'products#index'
+  # root 'products#index'
 
   # remove if root
   get 'static_pages/landing_page', to: 'static_pages#landing_page'
@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   get 'static_pages/about'
 
   get 'static_pages/contact', to: 'static_pages#contact'
+
+  post 'static_pages/thank_you', to: 'static_pages#thank_you'
 
   get 'branches', to: 'branches#get_coordinates'
 
