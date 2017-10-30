@@ -284,6 +284,26 @@ textarea,
 .navbar {
   @extend .background-color-1-vhi;
   @extend .border-radius-removed;
+
+  label{
+    @extend .font-color-1-vhi;
+    @extend .full-height;
+    font-size: 1.3em;
+    display: block;
+    float: left;
+    padding-top: 0.3em;
+    padding-right: 0.5em;
+  }
+}
+
+.navbar-right {
+  // padding-right: 2em;
+  // box-sizing: border-box;
+}
+
+.navbar-left {
+  // padding-left: 2em;
+  // box-sizing: border-box;
 }
 
 // Footer Style ==========================================
