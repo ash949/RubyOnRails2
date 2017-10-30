@@ -9,4 +9,11 @@ class StaticPagesController < ApplicationController
   def contact
     @branches = Branch.all
   end
+
+  def page_404
+  end
+
+  def no_route
+    redirect_to static_pages_page_404_path    
+  end
 end
