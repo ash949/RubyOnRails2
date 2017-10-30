@@ -4,9 +4,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    puts 'SEEEEEE MEEEE: ' + params[:search_term].strip
-    puts 'SEEEEEE MEEEE: ' + params[:search_term].strip.length.to_s
-    if ( params[:search_term].strip.length != 0 )
+    if ( params[:search_term].length != 0 )
       @products = Product.search(params[:search_term])
     else
       @products = Product.all
