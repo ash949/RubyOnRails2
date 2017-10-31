@@ -1,6 +1,6 @@
 <section id="featured-product" class="container">
   <header>
-    <h1>(Place Holder content and style) Featured Product:</h1>
+    <h1>Hello <%= current_user.first_name if user_signed_in? %> and welcome to H-ASH PC Store</h1>
   </header>
 
   <div id="featured_products_carousel" class="carousel slide" data-ride="carousel">

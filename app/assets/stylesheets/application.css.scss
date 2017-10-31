@@ -1,0 +1,108 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+@import 'shared';
+
+body{
+  padding-top: 50px; 
+}
+
+.navbar-right {
+  padding-right: 15px;
+}
+
+.navbar-right {
+  li { 
+    a {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+}
+
+.alert {
+  @extend .margin-top-sm;
+}
+
+#search-form {
+  margin: 0;
+  @extend .margin-top-md;
+
+  label{
+    font-size: 1.1em;
+    padding: 6px 12px;
+    width: 100%;
+  }
+
+  .btn,
+  .form-group {
+    padding-left: 0;
+    padding-right: 0;
+    * {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+}
+
+#user-buttons {
+  @extend .block-fixed;
+  z-index: 10000;
+  right: -280px;
+  top: 130px;
+  height: 40px;
+  width: 320px;
+  padding: 0;
+  transition: right 300ms;
+
+  .input-group-btn {
+    * {
+      @extend .display-block;
+      float: left;
+      height: 40px;
+      line-height: 40px;
+      box-sizing: border-box;
+      margin: 0;
+    }
+  }
+
+  p {
+    @extend .border-radius-removed;
+    @extend .text-center;
+    padding: 0;
+    width: 200px;
+  }
+
+  .btn {
+    padding: 0;
+    width: 40px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+#user-buttons.logged-in-widget.showed {
+  right: -40px;
+}
+
+#user-buttons.showed {
+  right: -200px;
+}
+
+

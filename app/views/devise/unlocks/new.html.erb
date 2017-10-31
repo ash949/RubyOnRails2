@@ -1,0 +1,24 @@
+<section class="container margin-bottom-md">
+  <header>
+    <h2>Resend unlock instructions</h2>
+  </header>
+
+  <%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+    <% if devise_error_messages! && devise_error_messages!.length != 0 %>
+      <%= render partial: 'shared/notice', locals: {type: 'danger', message: devise_error_messages! } %>
+    <% end %>
+
+    <div class="field form-group">
+      <%= f.label :email %>
+      <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Resend unlock instructions", class: 'btn btn-primary' %>
+      <%= render "devise/shared/links" %>
+    </div>
+  <% end %>
+
+  
+
+</section><!-- end - Resend unlock instructions form -->

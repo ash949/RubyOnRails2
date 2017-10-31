@@ -1,9 +1,10 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /products
   # GET /products.json
   def index
+    @search_form = true
     if ( params[:search_term] )
       @products = Product.search(params[:search_term])
     else
@@ -15,15 +16,18 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
+    @search_form = true
   end
 
   # GET /products/new
   def new
+    @search_form = false
     @product = Product.new
   end
 
   # GET /products/1/edit
   def edit
+    @search_form = false
   end
 
   # POST /products
@@ -61,7 +65,7 @@ class ProductsController < ApplicationController
   def destroy
     @product.destroy
     respond_to do |format|
-      format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
+      format.html { redirect_to products_url, notice: 'Product was successfully removed.' }
       format.json { head :no_content }
     end
   end

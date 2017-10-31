@@ -21,14 +21,14 @@
 
       <div class="navbar-header">
         <%= link_to 'H-ASH', root_path, class: "navbar-brand" %>
-        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#links-navbar-collapse" aria-expanded="false">
           <span class="sr-only">Toggle Navbar</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
       </div>
-      <div class="collapse navbar-collapse">
+      <div id="links-navbar-collapse" class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
           <li><%= link_to 'Landing Page', static_pages_landing_page_path %></li>
           <li><%= link_to 'About', static_pages_about_path %></li>
@@ -40,16 +40,48 @@
             </ul>
           </a></li>
         </ul>
-        <%= form_with( url: products_url, method: 'get', local: true, class:'navbar-form navbar-left' ) do |form| %>
-          <div class="form-group">
-            <%= form.label :search_term, 'Search for ' %>
-            <%= form.text_field :search_term, id: 'search-term', value: params[:search_term], class: 'form-control'%>
-          </div>
-          <%= form.submit 'Search', class: 'btn btn-primary'%>
+      </div>
+      
+    </nav><!-- end - navbar -->
+    
+    <section class="container-fluid">
+    <% if ( notice ) %>
+      <div id="notice" class="alert alert-success alert-dismissible fade in">
+        <%= notice %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <% end %>
+    </section>
+    <div id="user-buttons" class="input-group<%= " logged-in-widget" if user_signed_in? %>">
+      <div class="input-group-btn">
+        <button class="btn btn-primary glyphicon glyphicon-user"></button>
+        <% if user_signed_in? %>
+          <p class="form-control"><%= current_user.email %></p>
+          <%= link_to('', destroy_user_session_path, method: :delete, class: 'btn btn-primary glyphicon glyphicon-log-out') %>
+        <% else %>
+          <%= link_to('', new_user_session_path, class: 'btn btn-primary glyphicon glyphicon-log-in') %>
+          <%= link_to('', new_user_registration_path, class: 'btn btn-primary glyphicon glyphicon-plus') %>
         <% end %>
       </div>
-    </nav><!-- end - navbar -->
+    </div>
+    <% if @search_form %>
+      <section class="container">
+        <%= form_with( url: products_url, id: "search-form", method: 'get', local: true, class:'row' ) do |form| %>
+          <div class="form-group col-xs-2 col-sm-2 col-md-2 col-md-offset-1">
+            <%= form.label :search_term, 'Search for' %>
+          </div>
+          <div class="form-group col-xs-7 col-sm-8 col-md-6">
+            <%= form.text_field :search_term, id: 'search-term', value: params[:search_term], class: 'form-control'%>
+          </div>
+          <%= form.submit 'Search', class: 'btn btn-primary col-xs-3 col-sm-2 col-md-2'%>
+          
+        <% end %>
+      </section>
+    <% end %>
     <%= yield %> <!-- end - content filled by ruby (yeild) -->
+    
     <footer class="container-fluid">
       Copyright &copy; 2017, Hamza Ashour
     </footer><!-- end - footer -->

@@ -1,0 +1,26 @@
+<%= form_with(model: user, local: true, class: 'margin-bottom-md') do |form| %>
+  <% if user.errors.any? %>
+    <div id="error_explanation">
+    <%= render partial: 'shared/notice', locals: { type: 'danger', message: ( pluralize(user.errors.count, "error") + "prohibited this user from being saved:") }%>
+      <ul>
+      <% user.errors.full_messages.each do |message| %>
+        <%= render partial: 'shared/notice', locals: { type: 'danger', message: message }%>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-group">
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name, id: :user_first_name, class: 'form-control' %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name, id: :user_last_name, class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
