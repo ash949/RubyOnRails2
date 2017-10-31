@@ -67,6 +67,10 @@ changeCoordinates = function(){
   }
 };
 
-$(document).ready(function(){
+$(document).on('turbolinks:load', function(){
   $('[data-toggle="tooltip"]').tooltip();
+
+  $('#user-buttons .glyphicon-user').on('click', function(){
+    $('#user-buttons').toggleClass('showed');
+  });
 });

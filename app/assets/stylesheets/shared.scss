@@ -232,6 +232,10 @@ $separator-sm: 1em;
   height: 100%;
 }
 
+.block-fixed{
+  position: fixed;
+}
+
 
 // General Styling =======================================
 * {
@@ -279,6 +283,35 @@ textarea,
 .btn{
   @extend .border-radius-removed;
 }
+
+.table {
+  border: 1px solid $font-color-1-hi;
+
+  tr {
+    border-bottom: 1px solid $font-color-1-hi;
+    th,
+    td {
+      border-right: 1px solid $font-color-1-hi;
+    }
+    td:last-child {
+      @extend .text-center;
+    }
+  }
+
+  th,
+  td {
+    padding: 1em;
+  }
+
+  th{
+    @extend .text-center;
+    @extend .font-color-1-vhi;
+    @extend .background-color-1-lw;
+  }
+
+  
+}
+
 
 // Navbar Style ==========================================
 .navbar {

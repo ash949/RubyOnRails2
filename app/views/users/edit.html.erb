@@ -1,6 +1,11 @@
-<h1>Editing User</h1>
+<section class="container margin-bottom-md">
+  <header>
+    <h1>Editing User</h1>
+  </header>
 
-<%= render 'form', user: @user %>
+  <%= render 'form', user: @user %>
 
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+  <%= link_to 'Show', @user, class: 'btn btn-primary'%> |
+  <%= link_to 'Back', users_path, class: 'btn btn-primary' %>
+
+</section><!-- end - edit user form -->
