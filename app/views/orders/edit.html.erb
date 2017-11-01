@@ -1,0 +1,11 @@
+<section class="container margin-bottom-md">
+  <header>
+    <h1>Editing Order</h1>
+  </header>
+
+  <%= render 'form', order: @order %>
+
+  <%= link_to 'Show', @order, class: 'btn btn-primary' %> |
+  <%= link_to 'Orders Dashboard', orders_path, class: 'btn btn-primary' %>
+
+</section><!-- end - edit order -->

@@ -1,12 +1,12 @@
 <section class="container margin-bottom-md">
+  <% if devise_error_messages! && devise_error_messages!.length!= 0 %>
+    <%= render partial: 'shared/notice', locals: {type: 'danger', message: devise_error_messages!} %>
+  <% end %>
   <header>
     <h2>Forgot your password?</h2>
   </header>
 
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-    <% if devise_error_messages! && devise_error_messages!.length != 0 %>
-      <%= render partial: 'shared/notice', locals: {type: 'danger', message: devise_error_messages! } %>
-    <% end %>
 
     <div class="field form-group">
       <%= f.label :email %>

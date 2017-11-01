@@ -20,6 +20,21 @@
     <%= form.text_field :last_name, id: :user_last_name, class: 'form-control' %>
   </div>
 
+  <div class="field form-group">
+    <%= form.label :email %>
+    <%= form.email_field :email, id: :email, class: 'form-control' %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :password %>
+    <%= form.password_field :password, class: 'form-control' %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :password_confirmation %>
+    <%= form.password_field :password_confirmation, class: 'form-control' %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

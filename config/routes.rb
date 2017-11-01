@@ -1,20 +1,25 @@
 Rails.application.routes.draw do
   
+  resources :orders
+  get 'orders/index'
+
+  get 'orders/show'
+
+  get 'orders/create'
+
   devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'signup'}
+  
   resources :users
   resources :products
+  resources :orders
 
-  resources :orders, only: [:index, :show, :create, :destroy]
+
   
-  # old root
+  #root
   root 'static_pages#landing_page'
-
-  # new root
-  # root 'products#index'
-
-  # remove if root
-  get 'static_pages/landing_page', to: 'static_pages#landing_page'
   
+
+  # static_pages routes
   get 'static_pages/', to: 'static_pages#index' 
 
   get 'static_pages/index'
@@ -26,6 +31,11 @@ Rails.application.routes.draw do
   post 'static_pages/thank_you', to: 'static_pages#thank_you'
 
   get 'branches', to: 'branches#get_coordinates'
+  #----------------------------------------------------------------
+
+  # orders routes
+  delete 'orders/:id/:product_id', to: 'orders#remove_product', as: 'remove_product_from_order'
+  #----------------------------------------------------------------
 
   
   get 'static_pages/page_404', to: 'static_pages#page_404'

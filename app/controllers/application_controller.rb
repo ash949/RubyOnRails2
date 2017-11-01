@@ -3,14 +3,15 @@ class ApplicationController < ActionController::Base
 
   @search_form = true
 
+
+  # this block of code is to permit first_name and last_name for params in devise registeration controller
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
 
   protected
   def configure_devise_permitted_parameters
     registration_params = [
-        :first_name, :last_name, :address, :gender, :DOB, 
-        :email, :password, :password_confirmation, 
-        :image, :thumb, :medium
+        :first_name, :last_name, 
+        :email, :password, :password_confirmation
     ]
 
     if params[:action] == 'update'
@@ -22,5 +23,10 @@ class ApplicationController < ActionController::Base
         |u| u.permit(registration_params) 
       }
     end
+  end
+  #------------------------------------------------------------------
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to main_app.root_url, alert: exception.message
   end
 end

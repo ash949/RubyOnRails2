@@ -1,10 +1,12 @@
 <section class="container margin-bottom-md">
+  <% devise_error_messages! && devise_error_messages!.length != 0 %>
+    <%= render partial: 'shared/notice', locals: {type: 'danger', message: devise_error_messages! } %>
+  <% end %>
   <header>
     <h2>Resend confirmation instructions</h2>
   </header>
 
   <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-    <%= render partial: 'shared/notice', locals: {type: 'danger', message: devise_error_messages! } %>
     
     <div class="field form-group">
       <%= f.label :email %>

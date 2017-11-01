@@ -8,7 +8,6 @@
 
 Product.delete_all
 Order.delete_all
-User.delete_all
 OrderProductRecord.delete_all
 Branch.delete_all
 
@@ -61,15 +60,40 @@ Branch.create([
 ])
 
 #ORM
-# user = User.first
+user1 = User.first
+user2 = User.last
 
-# order = Order.new
+order1 = Order.new
+order2 = Order.new
+order3 = Order.new
+order4 = Order.new
 
-# user.orders << order
+product1 = Product.where('name Like ?', 'product 1')
+product2 = Product.where('name Like ?', 'product 2')
+product3 = Product.where('name Like ?', 'product 3')
+product4 = Product.where('name Like ?', 'product 4')
 
-# order.products << Product.limit(4)
+user1.orders << order1
+user1.orders << order2
 
-# User.first.orders.first.products
+user1.orders.first.products << product1
+user1.orders.first.products << product2
+user1.orders.first.products << product3
+
+user1.orders.last.products << product1
+user1.orders.last.products << product4
+
+user2.orders << order3
+user2.orders << order4
+
+user2.orders.first.products << product1
+user2.orders.first.products << product2
+user2.orders.first.products << product3
+
+user2.orders.last.products << product1
+user2.orders.last.products << product4
+
+
 
 
 
