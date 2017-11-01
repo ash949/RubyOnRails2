@@ -6,10 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+Comment.delete_all
 Product.delete_all
 Order.delete_all
 OrderProductRecord.delete_all
 Branch.delete_all
+
 
 Product.create([
   {
@@ -92,6 +94,10 @@ user2.orders.first.products << product3
 
 user2.orders.last.products << product1
 user2.orders.last.products << product4
+
+Comment.create!(user: User.first, product: Product.first, rating: 1, body: "bad")
+Comment.create!(user: User.first, product: Product.first, rating: 4, body: "nice")
+Comment.create!(user: User.first, product: Product.first, rating: 2, body: "meh")
 
 
 
