@@ -63,11 +63,11 @@ class OrdersController < ApplicationController
     end
   end
 
-  def remove_product
-    product = @order.products.find(params[:product_id])
-    @order.products.delete(product)
-    redirect_to @order, notice: 'Product was successfully removed from your order.'
-  end
+  # def remove_product
+  #   product = @order.products.find(params[:product_id])
+  #   @order.products.delete(product)
+  #   redirect_to @order, notice: 'Product was successfully removed from your order.'
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

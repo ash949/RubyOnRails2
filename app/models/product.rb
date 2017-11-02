@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
-  has_many :order_product_records
-  has_many :orders, through: :order_product_records
+  has_many :purchases
+  has_many :orders, through: :purchases
 
   has_many :comments
   
@@ -19,5 +19,9 @@ class Product < ApplicationRecord
 
   def lowest_rating_comment
     comments.rating_asc.first
+  end
+
+  def compute_average
+    self.comments.average(:rating)
   end
 end

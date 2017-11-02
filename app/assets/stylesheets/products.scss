@@ -28,13 +28,16 @@
   
   img {
     @extend .block-center;
+    @extend .margin-bottom-md;
     width: 70%;
   }
 }
 
-.product-name p {
-  @extend .text-center;
-  @extend .font-size-2
+.product-name {
+  @extend .display-block;
+  @extend .font-size-1-5;
+  @extend .font-bold-hi;
+  @extend .font-color-1-lw;
 }
 
 .product-price{
@@ -45,14 +48,13 @@
 }
 
 .product-description {
-  @extend .font-bold-hi;
+  @extend .margin-top-sm;
 }
 
 // Product Showcase ==========================================
 
 .product-showcase {
   >div {
-    @extend .border-wrapper;
     @extend .margin-bottom-md;
     margin: 1em;  
   }
@@ -68,8 +70,12 @@
   }
 
   .carousel-indicators {
+    height: 45px;
+    overflow-x: scroll;
     >li,
     >li.active {
+      display: block;
+      float: left;
       @extend .border-radius-removed;
       border-color: $background-color-2-lw;
       width: 80px;
@@ -101,10 +107,19 @@
 // Order Action ==========================================
 
 .order-action{
-  >div {
-    @extend .border-wrapper;
-    @extend .margin-bottom-md;
-    margin: 1em;
+  .product-rating {
+    @extend .margin-bottom-sm;
+
+    span:not(.rated) {
+      @extend .font-color-1-vhi;
+      padding-right: 1em;
+    }
+  }
+  
+  .order-action-main {
+    @extend .background-color-1-lw;
+    @extend .box-shadow-thin;
+    padding: 1em;
   }
 
   .btn{
@@ -112,7 +127,30 @@
   }
 
   .product-price{
+    @extend .font-color-1-vhi;
     float: left;
+  }
+}
+
+// Product Reviews =======================================
+.comment {
+  @extend .margin-bottom-md;
+  border-bottom: 1px solid $font-color-1-vhi;
+
+  .comment-time {
+    @extend .display-block;
+    @extend .font-size-0-8;
+    float: right;
+
+  }
+
+  .rated {
+    @extend .display-block;
+    @extend .margin-bottom-sm;
+  }
+
+  p {
+    @extend .font-bold-normal;
   }
 }
 

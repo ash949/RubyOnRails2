@@ -9,40 +9,40 @@
 Comment.delete_all
 Product.delete_all
 Order.delete_all
-OrderProductRecord.delete_all
+Purchase.delete_all
 Branch.delete_all
 
 
 Product.create([
   {
-    name: "product 1",
+    name: "Alienware 1231",
     image_url: "product.jpg",
     description: "Amazing Product",
-    features: "feature 1|||feature 2|||feature 3|||feature 4|||feature 5",
+    features: "CPU: Core i7 7700HQ 4.0GZ|||GPU: GTX 1060|||RAM: 16 GB DDR4 3200MHZ|||SSD: 480GB",
     price: 500.0,
     showcase_images: "product.jpg|||product.jpg|||product.jpg"
   },
   {
-    name: "product 2",
+    name: "Razer Blade Pro 2016",
     image_url: "product.jpg",
     description: "Amazing Product",
-    features: "feature 1|||feature 2|||feature 3|||feature 4|||feature 5",
+    features: "CPU: Core i7 7700HQ 4.0GZ|||GPU: GTX 1060",
     price: 450.0,
     showcase_images: "product.jpg|||product.jpg|||product.jpg|||product.jpg|||product.jpg|||product.jpg"
   },
   {
-    name: "product 3",
+    name: "Lenovo Ideapad 129",
     image_url: "product.jpg",
     description: "Amazing Product",
-    features: "feature 1|||feature 2|||feature 3|||feature 4|||feature 5",
+    features: "CPU: Core i7 7700HQ 4.0GZ|||GPU: GTX 1060|||RAM: 16 GB DDR4 3200MHZ",
     price: 1500.0,
     showcase_images: "product.jpg"
   },
   {
-    name: "product 4",
+    name: "MSI G4244",
     image_url: "product.jpg",
     description: "Amazing Product",
-    features: "feature 1|||feature 2|||feature 3|||feature 4|||feature 5",
+    features: "CPU: Core i7 7700HQ 4.0GZ|||GPU: GTX 1060|||RAM: 16 GB DDR4 3200MHZ|||SSD: 480GB",
     price: 1000.0,
     showcase_images: "product.jpg|||product.jpg"
   }
@@ -95,9 +95,9 @@ user2.orders.first.products << product3
 user2.orders.last.products << product1
 user2.orders.last.products << product4
 
-Comment.create!(user: User.first, product: Product.first, rating: 1, body: "bad")
-Comment.create!(user: User.first, product: Product.first, rating: 4, body: "nice")
-Comment.create!(user: User.first, product: Product.first, rating: 2, body: "meh")
+Comment.create!(user: User.first, product: Product.first, rating: 1, body: 'bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad ')
+Comment.create!(user: User.first, product: Product.first, rating: 4, body: "nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice ")
+Comment.create!(user: User.first, product: Product.first, rating: 2, body: "meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh ")
 
 
 

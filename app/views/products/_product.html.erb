@@ -1,6 +1,7 @@
 <div>
   <a class="product-image" href="/products/<%= product.id%>"><%= image_tag product.image_url, class: "img-responsive", alt: product.description%></a>
-  <a class="product-name" href="/products/<%= product.id%>"><p><%= product.name %></p></a>
+  <%= link_to "#{product.name}", product, class: 'product-name' %>
+  <span class="rated" data-score="<%= product.compute_average %>"></span>
   <p class="product-description"><%= product.description %></p>
   <ul class="product-feature-list">
     <% product.features.split("|||").each do |feature| %>

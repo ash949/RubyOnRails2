@@ -1,0 +1,20 @@
+$(document).on('turbolinks:load', function(){
+  var stars_hints = ['Bad', 'Poor', 'Mediocre', 'Good', 'Amazing']
+  $('.rating').raty({
+    starHalf: '<%= asset_path 'star-half.png' %>',
+    starOff: '<%= asset_path 'star-off.png' %>',
+    starOn: '<%= asset_path 'star-on.png' %>',
+    scoreName: 'comment[rating]',
+    hints: stars_hints
+  });
+
+  $('.rated').raty({
+    starHalf: '<%= asset_path 'star-half.png' %>',
+    starOff: '<%= asset_path 'star-off.png' %>',
+    starOn: '<%= asset_path 'star-on.png' %>',
+    readOnly: true,
+    noRatedMsg: 'Not Rated Yet',
+    score: $(this).data('score'),
+    hints: stars_hints
+  });
+});

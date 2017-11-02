@@ -1,0 +1,24 @@
+<section class="container review-form margin-bottom-md">
+  <header>
+    <h3><strong>Write a Review</strong></h3>
+  </header>
+
+  <%= form_with( model: [@product, Comment], class: 'row') do |form| %>
+    <div class="field form-group col-xs-12 col-sm-12 col-md-8">
+      <%= form.label 'Your Review' %>
+      <%= form.text_area :body, class: 'form-control' %>
+    </div>
+
+    <div class="field form-group col-xs-12 col-sm-12 col-md-8">
+      <%= form.label :rating %>
+      <span class="rating "></span>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="form-group col-xs-6 col-sm-4 col-md-2">
+      <%= form.submit 'Submit Review', class: 'btn btn-primary'%>
+    </div>
+  <% end %>
+</section><!-- end - review form -->
+<div class="clearfix"></div>
+<hr>

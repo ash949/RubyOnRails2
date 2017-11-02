@@ -1,17 +1,32 @@
 Rails.application.routes.draw do
-  
-  resources :orders
-  get 'orders/index'
-
-  get 'orders/show'
-
-  get 'orders/create'
-
   devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'signup'}
   
-  resources :users
-  resources :products
-  resources :orders
+  resources :products do
+    resources :comments
+  end
+
+  resources :users do
+    resources :comments
+  end
+
+
+  resources :orders do
+    resources :products
+  end
+
+  resources :products do
+    resources :orders
+  end
+  
+
+  
+  resources :users do
+    resources :orders do 
+    end
+  end
+
+
+  
 
 
   
@@ -34,7 +49,7 @@ Rails.application.routes.draw do
   #----------------------------------------------------------------
 
   # orders routes
-  delete 'orders/:id/:product_id', to: 'orders#remove_product', as: 'remove_product_from_order'
+  # delete 'orders/:id/:product_id', to: 'orders#remove_product', as: 'remove_product_from_order'
   #----------------------------------------------------------------
 
   

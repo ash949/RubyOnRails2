@@ -1,13 +1,13 @@
-$background-color-1-vhi: #000E1C;
-$background-color-1-hi: #002447;
+$background-color-1-vhi: rgb(4, 17, 29);
+$background-color-1-hi: #152f46;
 $background-color-1-md: #004384;
-$background-color-1-lw: #0155A7;
+$background-color-1-lw: rgb(102, 130, 156);
 
 
-$background-color-2-vhi: rgb(150, 0, 0);
-$background-color-2-hi: rgb(150, 30, 30);
-$background-color-2-md: rgb(150, 60, 60);
-$background-color-2-lw: rgb(150, 90, 90);
+$background-color-2-vhi: rgb(148, 36, 36);
+$background-color-2-hi: rgb(150, 54, 54);
+$background-color-2-md: rgb(146, 94, 94);
+$background-color-2-lw: rgb(192, 154, 154);
 
 $font-color-1-vhi: #eee;
 $font-color-1-hi: #aaa;
@@ -197,11 +197,11 @@ $separator-sm: 1em;
 
 // Extra Style ==========================================
 .box-shadow-thick {
-  box-shadow: 3px 3px 10px black, -3px 3px 10px black !important;
+  box-shadow: 3px 3px 5px black !important;
 }
 
 .box-shadow-thin {
-  box-shadow: 1px 1px 5px black, -1px 1px 5px black !important;
+  box-shadow: 1px 1px 3px black !important;
 }
 
 .border-radius-removed {
@@ -213,7 +213,7 @@ $separator-sm: 1em;
 }
 
 .block-center {
-  margin: 0 auto !important;
+  margin: auto ;
 }
 
 .overlay {
@@ -269,8 +269,8 @@ ul {
 }
 
 header{
-  @extend .margin-top-lg;
-  @extend .margin-bottom-lg;
+  @extend .margin-top-sm;
+  @extend .margin-bottom-md;
 }
 
 .border-wrapper {

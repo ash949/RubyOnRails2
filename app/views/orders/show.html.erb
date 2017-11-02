@@ -18,7 +18,7 @@
         <tr>
           <td><%= product.name %></td>
           <td><%= product.price %></td>
-          <td><%= link_to 'Delete', remove_product_from_order_path(product_id: product.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+          <td><%= link_to 'Delete', [@order, product], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
         </tr>
       <% end %>
     </tbody>

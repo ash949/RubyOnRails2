@@ -1,16 +1,10 @@
-<section class="container">
+<section class="container margin-bottom-md">
   <header>
     <h1> <%= @product.name %></h1>
   </header>
   <hr>
-  <div class="row">
-    <div class="order-action col-xs-12 col-sm-12 col-md-8" >
-      <div>
-        <p class="product-price">Price: <%= @product.price %>$</p>
-        <button class="btn btn-primary">Add To Cart</button>
-        <div class="clearfix"></div>
-      </div>
-    </div>
+  <div class="row row-is-flex">
+    
     <div class="product-showcase col-xs-12 col-sm-12 col-md-8">
       <div>
         <div id="showcase-carousel" class="carousel slide" data-ride="carousel">
@@ -60,12 +54,37 @@
         </ul>
       </div>
     </div>
+    <div class="order-action col-xs-12 col-sm-12 col-md-4" >
+      <div class='order-action-main'>
+        <div class="product-rating">
+          <span><strong>Product Rating</strong></span>
+          <span class='rated' data-score="<%= @product.compute_average%>"></span>
+        </div>
+        <p class="product-price">Price: <%= @product.price %>$</p>
+        <button class="btn btn-success">Add To Cart</button>
+        <div class="clearfix"></div>
+      </div>
+      <h4><strong>Highest rating review</strong></h4>
+      <div class='comment'>
+        <%= render partial: 'comment', locals: {comment: @product.highest_rating_comment}%>
+      </div>
+      <h4><strong>Lowest rating review</strong></h4>
+      <div class='comment'>
+        <%= render partial: 'comment', locals: {comment: @product.lowest_rating_comment}%>
+      </div>
+    </div>
   </div>
-  <%= link_to 'Edit', edit_product_path(@product), class: "btn btn-primary" %> |
-  <%= link_to 'Back', products_path, class: "btn btn-primary" %>
-  <hr>
-  <br>
-
+  
+  <div class="col-md-12">
+    <%= link_to 'Edit', edit_product_path(@product), class: "btn btn-primary" %> |
+    <%= link_to 'Products Dashboard', products_path, class: "btn btn-primary" %>
+  </div>
 </section><!-- end - product showcase -->
 
+<div class="clearfix"></div>
+
+<% if user_signed_in? %>
+  <%= render partial: 'comment_form'%>
+<% end %>
+<%= render partial: 'comments'%>
 

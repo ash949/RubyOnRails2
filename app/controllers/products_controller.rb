@@ -16,6 +16,9 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
+    @product.comments.each do |comment|
+      
+    end
     @search_form = true
   end
 
@@ -63,7 +66,12 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   # DELETE /products/1.json
   def destroy
-    @product.destroy
+    if( params[:order_id] )
+      Order.find(params[:order_id]).products.delete(@product)
+    else
+      @product.destroy
+    end
+    
     respond_to do |format|
       format.html { redirect_to products_url, notice: 'Product was successfully removed.' }
       format.json { head :no_content }

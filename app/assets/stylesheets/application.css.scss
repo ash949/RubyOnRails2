@@ -15,6 +15,7 @@
  */
 
 @import 'shared';
+@import 'jquery.raty';
 
 body{
   padding-top: 50px; 
@@ -41,10 +42,14 @@ body{
   margin: 0;
   @extend .margin-top-md;
 
-  label{
-    font-size: 1.1em;
-    padding: 6px 12px;
-    width: 100%;
+  label {
+    @extend .font-bold-normal;
+    @extend .text-right;
+    font-size: 1.2em;
+    padding-right: 1em;
+    width: 95%;
+    box-sizing: border-box;
+    line-height: 34px;
   }
 
   .btn,
