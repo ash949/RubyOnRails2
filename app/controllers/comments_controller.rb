@@ -1,8 +1,12 @@
 class CommentsController < ApplicationController
-
   before_action :authenticate_user!
 
   def destroy
+    set_comment
+    authorize! :destroy, @comment
+    @comment.destroy
+    @product = @comment.product
+    redirect_to @product, notice: 'Comment has been destroyed successfully'
   end
 
   def create
@@ -14,7 +18,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         format.html{ redirect_to @product, notice: 'Your review has been submitted successfully'} 
-        format.json { render :show, status: :created, location: @product } 
+        format.json { render :show, status: :created, location: @product }
       else
         format.html{ redirect_to @product, flash: { error: @comment.errors.full_messages, model: 'review' } } 
         format.json { render json: @comment.errors, status: :unprocessable_entity }
@@ -26,5 +30,9 @@ class CommentsController < ApplicationController
   private
     def comments_params
       params.require(:comment).permit(:body, :rating)
+    end
+
+    def set_comment
+      @comment = Comment.find(params[:id])
     end
 end

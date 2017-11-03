@@ -1,8 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:show, :index, :new, :create]
-  
-  load_and_authorize_resource
+  before_action :authenticate_user!, except: [:show, :index]
+  load_and_authorize_resource except: [:index]
 
   add_new_user_params = [
     :first_name, :last_name, 
@@ -82,6 +81,11 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+      if current_user.admin?
+        params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :admin)
+      else
+        params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+      end
+      
     end
 end

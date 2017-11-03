@@ -1,6 +1,9 @@
 <% if comment %>
+  <% if current_user.admin? %>
+    <%= link_to '', [@product, comment], method: :delete, class: 'btn btn-danger glyphicon glyphicon-remove', data: { confirm: 'Are you sure?' }%>
+  <% end %>
   <span class='comment-user' ><strong><%=comment.user.first_name + ' ' + comment.user.last_name%> <strong></span>
-  <span class='comment-time'><%= time_ago_in_words(comment.created_at) + ' ago'%></span>
+  <span class='comment-time'><%= time_ago_in_words(comment.created_at) + ' ago' %></span>
   <span class='rated' data-score="<%= comment.rating%>"></span>
   <p><%= comment.body %></p>
 <% else %>

@@ -120,11 +120,13 @@
     @extend .background-color-1-lw;
     @extend .box-shadow-thin;
     padding: 1em;
+
+    .btn{
+      float: right;
+    }
   }
 
-  .btn{
-    float: right;
-  }
+  
 
   .product-price{
     @extend .font-color-1-vhi;
@@ -151,6 +153,7 @@
 
   p {
     @extend .font-bold-normal;
+    word-wrap: break-word;
   }
 }
 

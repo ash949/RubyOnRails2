@@ -9,5 +9,8 @@
     <% end %>
   </ul>
   <p class="product-price">Price: <%= product.price %>$</p>
+  <% if current_user.admin? %>
+    <%= link_to 'Edit', edit_product_path(product.id), class: 'btn btn-warning'%>
+  <% end %>
   <button class="btn btn-primary">Add To Cart</button>
 </div>
