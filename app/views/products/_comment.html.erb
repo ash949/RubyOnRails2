@@ -1,5 +1,5 @@
 <% if comment %>
-  <% if current_user.admin? %>
+  <% if current_user && current_user.admin? %>
     <%= link_to '', [@product, comment], method: :delete, class: 'btn btn-danger glyphicon glyphicon-remove', data: { confirm: 'Are you sure?' }%>
   <% end %>
   <span class='comment-user' ><strong><%=comment.user.first_name + ' ' + comment.user.last_name%> <strong></span>

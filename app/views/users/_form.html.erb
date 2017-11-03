@@ -20,7 +20,7 @@
     <%= form.text_field :last_name, id: :user_last_name, class: 'form-control' %>
   </div>
 
-  <% if current_user.admin? %>
+  <% if current_user && current_user.admin? %>
     <div class="field form-group">
       <%= form.label :email %>
       <%= form.email_field :email, id: :email, class: 'form-control' %>
@@ -37,7 +37,7 @@
     <%= form.password_field :password_confirmation, class: 'form-control' %>
   </div>
 
-  <% if true || current_user.admin? %>
+  <% if current_user || current_user.admin? %>
     <div class="field form-group">
       <%= form.label :admin %>
       <%= form.check_box :admin %>
