@@ -33,6 +33,8 @@ class OrdersController < ApplicationController
         format.html { redirect_to @order, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       else
+        flash[:error] = @order.errors.full_messages
+        flash[:model] = 'order'
         format.html { render :new }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
@@ -47,6 +49,8 @@ class OrdersController < ApplicationController
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
+        flash[:error] = @order.errors.full_messages
+        flash[:model] = 'order'
         format.html { render :edit }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end

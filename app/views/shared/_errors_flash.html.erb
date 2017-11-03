@@ -1,0 +1,8 @@
+<% final_message = '' %>
+<div id="error_explanation">
+  <%  final_message += '<strong>' +pluralize(errors.count, "error ") + "prohibited this #{model} from being saved:" + '</strong><br>' %>
+  <% errors.each do |message| %>
+    <% final_message += message + '<br>'%>
+  <% end %>
+  <%= render partial: 'shared/notice', locals: {type: 'danger', message: final_message} %>
+</div>

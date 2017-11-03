@@ -2,8 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   @search_form = true
-
-
+  
   # this block of code is to permit first_name and last_name for params in devise registeration controller
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
 

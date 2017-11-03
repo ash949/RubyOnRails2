@@ -56,6 +56,9 @@
       <% elsif (alert && alert.length != 0) %>
         <%= render partial: 'shared/notice', locals: {type: 'danger', message: alert}%>
       <% end %>
+      <% if flash && flash[:error] %>
+        <%= render partial: 'shared/errors_flash', locals: {errors: flash[:error], model: flash[:model] }%>
+      <% end %>
     </section>
     <div id="user-buttons" class="input-group<%= " logged-in-widget" if user_signed_in? %>">
       <div class="input-group-btn">

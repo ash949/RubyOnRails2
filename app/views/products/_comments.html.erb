@@ -3,8 +3,8 @@
     <h3><strong>Users Reviews</strong></h3>
   </header>
   <ul class="row">
-  <% if @product.comments.count > 0 %>
-    <% @product.comments.order(created_at: :desc).each do |comment| %>
+  <% if @comments.count > 0 %>
+    <% @comments.each do |comment| %>
       <li class="comment col-xs-12 col-sm-12 col-md-8">
         <%= render partial: 'comment', locals: {comment: comment}%>
       </li>
@@ -12,6 +12,7 @@
   <% else %>
     <p>This product hasn't been reviewed yet</p>
   <% end %>
-  
   </ul>
+  <div class="clearfix"></div>
+  <%= will_paginate @comments%>
 </section><!-- end - Users' Reviews -->

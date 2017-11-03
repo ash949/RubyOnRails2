@@ -84,7 +84,8 @@
 <div class="clearfix"></div>
 
 <% if user_signed_in? %>
-  <%= render partial: 'comment_form'%>
+  <%= render partial: 'comment_form', locals: {comment: @comment}%>
 <% end %>
 <%= render partial: 'comments'%>
+
 

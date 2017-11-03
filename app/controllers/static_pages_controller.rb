@@ -3,7 +3,6 @@ class StaticPagesController < ApplicationController
   end
 
   def landing_page
-    @search_form = true
     @featured_products = Product.limit(3)
   end
 

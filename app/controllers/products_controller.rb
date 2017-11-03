@@ -10,15 +10,14 @@ class ProductsController < ApplicationController
     else
       @products = Product.all
     end
-    
+    @products = @products.paginate(page: params[:page], per_page: 2)
   end
 
   # GET /products/1
   # GET /products/1.json
   def show
-    @product.comments.each do |comment|
-      
-    end
+    @comment = Comment.new
+    @comments = @product.comments.order(created_at: :desc).paginate(page: params[:page], per_page: 2)
     @search_form = true
   end
 
@@ -43,6 +42,11 @@ class ProductsController < ApplicationController
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else
+        flash[:error] = @product.errors.full_messages
+        flash[:model] = 'product'
+        puts '\n\n\n\n===================================='
+        puts flash[:error]
+        puts '====================================\n\n\n\n'
         format.html { render :new }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
@@ -57,6 +61,8 @@ class ProductsController < ApplicationController
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
         format.json { render :show, status: :ok, location: @product }
       else
+        flash[:error] = @product.errors.full_messages
+        flash[:model] = 'product'
         format.html { render :edit }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
