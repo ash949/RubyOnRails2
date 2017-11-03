@@ -12,7 +12,6 @@ class Ability
     else
       can :show, User, id: user.id
       can :update, User, id: user.id
-      cannot :admin, User
       can :manage, Order, user_id: user.id
       can :create, Comment, user_id: user.id
     end
