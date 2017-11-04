@@ -18,8 +18,6 @@ Rails.application.routes.draw do
     resources :orders
   end
   
-
-  
   resources :users do
     resources :orders do 
     end

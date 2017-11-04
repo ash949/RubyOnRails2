@@ -1,6 +1,6 @@
 <section class="container margin-bottom-md">
   <header>
-    <h1><%= @orders.first.user.first_name + ' ' + @orders.first.user.last_name + "'s Orders"%></h1>
+    <h1><%= current_user.first_name + ' ' + current_user.last_name + "'s Orders"%></h1>
   </header>
 
   <table class="table">

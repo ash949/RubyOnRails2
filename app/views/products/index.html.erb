@@ -1,10 +1,11 @@
 <section id="product-list" class="container">
+  <% if current_user && current_user.admin? %>
+    <%= link_to 'New Product', new_product_path, class: 'btn btn-warning'%>
+  <% end %>
   <header>
     <h1>Products</h1>
   </header>
-  <% if current_user && current_user.admin? %>
-    <% link_to 'New Product', new_product_path, class: 'btn btn-warning'%>
-  <% end %>
+  
   <ul class="product-list">
     <% @products.each do |product| %>
     <li class="col-xs-12 col-sm-4">
