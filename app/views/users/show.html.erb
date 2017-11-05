@@ -1,4 +1,7 @@
 <section class="container margin-bottom-md">
+  <header>
+    <h1><%= @user.first_name + ' ' + @user.last_name %></h1>
+  </header>
   <p>
     <strong>First name:</strong>
     <%= @user.first_name %>
@@ -12,6 +15,11 @@
   <p>
     <strong>Email: </strong>
     <%= @user.email %>
+  </p>
+
+  <p>
+    <strong>Email: </strong>
+    <%= @user.admin %>
   </p>
 
   <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-primary' %> |

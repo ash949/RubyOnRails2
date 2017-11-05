@@ -59,7 +59,7 @@ class UsersController < ApplicationController
     end
 
     if updated
-      sign_in(@user, :bypass => true)
+      #sign_in(@user, :bypass => true)
       redirect_to @user, notice: 'User has successfully been updated'
     else
       redirect_to @user, flash: { error: @user.errors.full_messages }
