@@ -9,8 +9,9 @@
 Comment.delete_all
 Product.delete_all
 Order.delete_all
-Purchase.delete_all
+OrderProduct.delete_all
 Branch.delete_all
+User.delete_all
 
 
 Product.create([
@@ -62,8 +63,11 @@ Branch.create([
 ])
 
 #ORM
-user1 = User.first
-user2 = User.last
+user1 = User.create!(first_name: 'test1', last_name: 'test1', email: 'test1@test1', password: '123123')
+user2 = User.create!(first_name: 'test2', last_name: 'test2', email: 'test2@test2', password: '123123')
+user3 = User.create!(first_name: 'admin', last_name: 'admin', email: 'admin@admin', password: '123123')
+user3.admin = true
+user3.save
 
 order1 = Order.new
 order2 = Order.new
@@ -95,9 +99,9 @@ user2.orders.first.products << product3
 user2.orders.last.products << product1
 user2.orders.last.products << product4
 
-Comment.create!(user: User.first, product: Product.first, rating: 1, body: 'bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad ')
-Comment.create!(user: User.first, product: Product.first, rating: 4, body: "nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice ")
-Comment.create!(user: User.first, product: Product.first, rating: 2, body: "meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh ")
+Comment.create!(user: user1, product: Product.first, rating: 1, body: 'bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad ')
+Comment.create!(user: user2, product: Product.first, rating: 4, body: "nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice nice ")
+Comment.create!(user: user3, product: Product.first, rating: 2, body: "meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh meh ")
 
 
 
