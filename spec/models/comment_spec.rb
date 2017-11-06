@@ -1,5 +1,4 @@
 require 'rails_helper'
-Rails.env = ENV['RAILS_ENV'] = 'test'
 
 describe Comment do
   context "when a comment is created" do

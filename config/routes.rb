@@ -9,23 +9,11 @@ Rails.application.routes.draw do
     resources :comments
   end
 
-
-  resources :orders do
-    resources :products
-  end
-
-  resources :products do
-    resources :orders
-  end
-  
   resources :users do
     resources :orders do 
+      resources :products
     end
   end
-
-
-  
-
 
   
   #root

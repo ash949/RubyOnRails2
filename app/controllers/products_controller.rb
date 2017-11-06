@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]  
   load_and_authorize_resource except: [:index, :show]
 
   # GET /products
@@ -74,21 +75,27 @@ class ProductsController < ApplicationController
   # DELETE /products/1.json
   def destroy
     if( params[:order_id] )
-      Order.find(params[:order_id]).products.delete(@product)
+      @order = Order.find(params[:order_id]).products.delete(@product)
+      redirect_to orders_path
     else
       @product.destroy
+      respond_to do |format|
+        format.html { redirect_to products_url, notice: 'Product was successfully removed.' }
+        format.json { head :no_content }
+      end
     end
     
-    respond_to do |format|
-      format.html { redirect_to products_url, notice: 'Product was successfully removed.' }
-      format.json { head :no_content }
-    end
+    
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
-      @product = Product.find(params[:id])
+      begin
+        @product = Product.find(params[:id])  
+      rescue Exception
+        redirect_to root_url, alert: 'No valid ID provided to show the object'
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,5 +1,4 @@
 require 'rails_helper'
-Rails.env = ENV['RAILS_ENV'] = 'test'
 
 describe Order do
   context "when an order is created" do

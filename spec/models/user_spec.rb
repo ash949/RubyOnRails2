@@ -1,5 +1,4 @@
 require 'rails_helper'
-Rails.env = ENV['RAILS_ENV'] = 'test'
 
 describe User do
   context "when user is created" do
