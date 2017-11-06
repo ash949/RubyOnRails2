@@ -44,7 +44,6 @@
     </nav><!-- end - navbar -->
     
     <section class="container-fluid">
-    <%= link_to "DELETE", Product.all.first, method: :delete, class:'btn btn-danger'%>
       <% if (notice && notice.length != 0) %>
         <%= render partial: 'shared/notice', locals: {type: 'success', message: notice}%>
       <% elsif (alert && alert.length != 0) %>
