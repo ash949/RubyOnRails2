@@ -11,9 +11,9 @@ describe UsersController, type: :controller do
 
   #=======================================================================================
   context "GET #show" do
-    let(:user1) { User.create!(email: 'test0@test0', password: '123123') }
-    let(:user2) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:admin) { User.create!(email: 'test1@test1', password: '123123', admin: true) }
+    let(:user1) { FactoryBot.create(:user) }
+    let(:user2) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user2
@@ -53,8 +53,8 @@ describe UsersController, type: :controller do
   #=======================================================================================
   context "GET #new" do
     let(:user1) { User.new() }
-    let(:user2) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:admin) { User.create!(email: 'test2@test2', password: '123123', admin: true) }
+    let(:user2) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     it "user not authorized - user is logged in and non admin" do
       sign_in user2
@@ -79,9 +79,9 @@ describe UsersController, type: :controller do
 
   #=======================================================================================
   context "GET #edit" do
-    let(:user1) { User.create!(email: 'test0@test0', password: '123123') }
-    let(:user2) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:admin) { User.create!(email: 'test2@test2', password: '123123', admin: true) }
+    let(:user1) { FactoryBot.create(:user) }
+    let(:user2) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     it "user not authorized - user is logged in and non admin" do
       sign_in user2
@@ -106,9 +106,9 @@ describe UsersController, type: :controller do
   
   #=======================================================================================
   context "DELETE #destroy:" do
-    let(:user1) { User.create!(email: 'test0@test0', password: '123123') }
-    let(:user2) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:admin) { User.create!(email: 'test2@test2', password: '123123', admin: true) }
+    let(:user1) { FactoryBot.create(:user) }
+    let(:user2) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user2
@@ -125,7 +125,9 @@ describe UsersController, type: :controller do
 
     it "admin user can delete a user, redirected to users page" do
       sign_in admin
+      id = user1.id
       delete :destroy, params: {id: user1.id}
+      expect( User.where("id = #{id}").size ).to eq(0)
       expect(response).to redirect_to users_path
     end
   end
@@ -133,8 +135,8 @@ describe UsersController, type: :controller do
   #=======================================================================================
   context "POST #create:" do
     let(:user1) { User.new() }
-    let(:user2) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:admin) { User.create!(email: 'test2@test2', password: '123123', admin: true) }
+    let(:user2) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user2
@@ -152,15 +154,16 @@ describe UsersController, type: :controller do
     it "admin user can create a user, redirected to user's show page" do
       sign_in admin
       post :create, params: {user: {first_name: "", last_name: "", email: "test0@test0", password: "123123", password_confirmation: "123123", admin: "0"}}
+      expect(User.all.reload.size == 3 && User.all.last.email == 'test0@test0').to eq(true)      
       expect(response).to redirect_to user_path(User.all.where("email = 'test0@test0'").first.id)
     end
   end
 
   #=======================================================================================
   context "PATCH #update:" do
-    let(:user1) { User.create!(email: 'test0@test0', password: '123123') }
-    let(:user2) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:admin) { User.create!(email: 'test2@test2', password: '123123', admin: true) }
+    let(:user1) { FactoryBot.create(:user) }
+    let(:user2) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user2
@@ -171,8 +174,9 @@ describe UsersController, type: :controller do
 
     it "user updated - authorized to change his first_name, last_name and password- non-admin logged_in user, redirected to root page" do
       sign_in user1
-      post :update, params: {id: user1.id, user: {first_name: "test0", last_name: "test0", password: "112233", password_confirmation: "112233"}}
-      expect(response).to redirect_to user_path(User.all.where("first_name = 'test0'").first.id)
+      post :update, params: {id: user1.id, user: {first_name: "testing_f", last_name: "testing_l", password: "112233", password_confirmation: "112233"}}
+      expect(User.all.find(user1.id).first_name == "testing_f" && User.all.find(user1.id).last_name == "testing_l").to eq(true)
+      expect(response).to redirect_to user_path(User.all.where("first_name = 'testing_f'").first.id)
     end
 
     it "user not updated - not authorized to change his email and admin flag- non-admin logged_in user, redirected to root page" do
@@ -189,7 +193,8 @@ describe UsersController, type: :controller do
 
     it "admin user can update a user, redirected to user's show page" do
       sign_in admin
-      post :update, params: {id: user1.id, user: {first_name: "test", last_name: "", email: "test00@test00", password: "123123", password_confirmation: "123123", admin: "0"}}
+      post :update, params: {id: user1.id, user: {first_name: "testing_f", last_name: "", email: "test00@test00", password: "123123", password_confirmation: "123123", admin: "0"}}
+      expect( User.all.find(user1.id).first_name == "testing_f" && User.all.find(user1.id).email == 'test00@test00').to eq(true)      
       expect(response).to redirect_to user_path(User.all.where("email = 'test00@test00'").first.id)
     end
   end

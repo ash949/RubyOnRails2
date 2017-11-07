@@ -2,18 +2,14 @@ require 'rails_helper'
 
 describe OrdersController, type: :controller do
   context "GET #index:" do
-    let(:user1) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:user2) { User.create!(email: 'test2@test2', password: '123123') }
-    let(:admin) { User.create!(email: 'admin@admin', password: '123123', admin: true) }
+    let(:user1) { FactoryBot.create(:user) }
+    let(:user2) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     before do
       Order.delete_all
-      user1.orders.create!()
-      user1.orders.create!()
-      user1.orders.create!()
-      user1.orders.create!()
-      user2.orders.create!()
-      user2.orders.create!()
+      user1.orders << FactoryBot.create_list(:order, 4)
+      user2.orders << FactoryBot.create_list(:order, 2)
     end
 
     it 'not authenticated user - not_logged_in user, redirected to login page' do
@@ -46,13 +42,13 @@ describe OrdersController, type: :controller do
 
   #==================================================================================================
   context "GET #show:" do
-    let(:user1) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:user2) { User.create!(email: 'test2@test2', password: '123123') }
-    let(:admin) { User.create!(email: 'admin@admin', password: '123123', admin: true) }
+    let(:user1) { FactoryBot.create(:user) }
+    let(:user2) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     before do
-      user1.orders.create!()
-      user2.orders.create!()
+      user1.orders << FactoryBot.create(:order)
+      user2.orders << FactoryBot.create(:order)
     end
 
     it 'not authenticated user - not_logged_in user, redirected to login page' do
@@ -93,14 +89,14 @@ describe OrdersController, type: :controller do
 #==================================================================================================
   context "DELETE #destroy:" do
     
-    let(:user1) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:user2) { User.create!(email: 'test2@test2', password: '123123') }
-    let(:admin) { User.create!(email: 'admin@admin', password: '123123', admin: true) }
+    let(:user1) { FactoryBot.create(:user) }
+    let(:user2) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     before do
       Order.delete_all
-      user1.orders.create!()
-      user2.orders.create!()
+      user1.orders << FactoryBot.create(:order)
+      user2.orders << FactoryBot.create(:order)
     end
 
     it "not authorized - non-admin logged_in user want to delete other's order, redirected to root page" do
@@ -113,7 +109,7 @@ describe OrdersController, type: :controller do
     it "order destroyed - authorized - non-admin logged_in user want to delete his order, redirected to orders page" do
       sign_in user1
       delete :destroy, params: {user_id: user1.id, id: user1.orders.first.id}
-      expect(Order.all.length).to eq(1)
+      expect(user1.orders.reload.size).to eq(0)
       expect(response).to redirect_to user_orders_path(user1.id)
     end
 
@@ -126,7 +122,7 @@ describe OrdersController, type: :controller do
     it "order destroyed - admin user can delete any order, redirected to orders page" do
       sign_in admin
       delete :destroy, params: {user_id: user1.id, id: user1.orders.first.id}
-      expect(Order.all.length).to eq(1)
+      expect(user1.orders.reload.size).to eq(0)
       expect(response).to redirect_to user_orders_path(user1.id)
     end
   end

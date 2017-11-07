@@ -38,6 +38,7 @@ group :development, :test do
     gem lib, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
   gem 'rails-controller-testing'
+  gem "factory_bot_rails", "~> 4.0"
 end
 
 group :development do

@@ -12,14 +12,13 @@ describe ProductsController, type: :controller do
 
   #=======================================================================================
   context "GET #show" do
-    let(:product) { Product.create!(name: 'Laptop 1', price: 500) }
+    let(:product) { FactoryBot.create(:product) }
     it "renders products show template" do
-      get :show, params: {id: product.id}
+      get :show, params: { id: product.id }
       expect(response).to be_ok
       expect(response).to render_template('show')
     end
 
-    let(:product) { Product.create!(name: 'Laptop 1', price: 500) }
     it "renders products show template" do
       get :show, params: {id: "edit"}
       expect(flash[:alert]).to eq(NO_ID_PROVIDED_MESSAGE)
@@ -29,9 +28,9 @@ describe ProductsController, type: :controller do
 
   #=======================================================================================
   context "GET #new" do
-    let(:product) { Product.new() }
-    let(:user) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:admin) { User.create!(email: 'test2@test2', password: '123123', admin: true) }
+    let(:product) { FactoryBot.build(:product) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     it "user not authorized - user is not logged in and non admin" do
       get :new
@@ -56,9 +55,9 @@ describe ProductsController, type: :controller do
 
   #=======================================================================================
   context "GET #edit" do
-    let(:product) { Product.create!(name: 'laptop 1', price: 500) }
-    let(:user) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:admin) { User.create!(email: 'test2@test2', password: '123123', admin: true) }
+    let(:product) { FactoryBot.create(:product) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     it "user not authorized - user is logged in and non admin" do
       sign_in user
@@ -83,9 +82,9 @@ describe ProductsController, type: :controller do
   
   #=======================================================================================
   context "DELETE #destroy:" do
-    let(:product) { Product.create!(name: 'Laptop 1', price: 500) }
-    let(:user) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:admin) { User.create!(email: 'test2@test2', password: '123123', admin: true) }
+    let(:product) { FactoryBot.create(:product) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     it "not authorized - non-admin logged_in user can't delete a product, redirected to root page" do
       sign_in user
@@ -103,7 +102,7 @@ describe ProductsController, type: :controller do
     it "admin user can delete a product, redirected to products page" do
       sign_in admin
       delete :destroy, params: {id: product.id}
-      expect(Product.all.length).to eq(0)
+      expect(Product.all.size).to eq(0)
       expect(response).to redirect_to products_path
     end
   end
@@ -111,8 +110,8 @@ describe ProductsController, type: :controller do
   #=======================================================================================
   context "POST #create:" do
     let(:product) { Product.new() }
-    let(:user) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:admin) { User.create!(email: 'test2@test2', password: '123123', admin: true) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user
@@ -130,16 +129,16 @@ describe ProductsController, type: :controller do
     it "admin user can create a product, redirected to products page" do
       sign_in admin
       post :create, params: {product: {name: 'Laptop 1', price: 500, image_url: "", description: "", features: "", showcase_images: ""}}
-      expect(Product.all.length == 1 && Product.all.first.name == 'Laptop 1').to eq(true)
+      expect(Product.all.reload.size == 1 && Product.all.first.name == 'Laptop 1').to eq(true)
       expect(response).to redirect_to product_path(Product.last.id)
     end
   end
 
   #=======================================================================================
   context "PATCH #update:" do
-    let(:product) { Product.create!(name: 'Laptop 1', price: 500) }
-    let(:user) { User.create!(email: 'test1@test1', password: '123123') }
-    let(:admin) { User.create!(email: 'test2@test2', password: '123123', admin: true) }
+    let(:product) { FactoryBot.create(:product) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user
@@ -157,7 +156,7 @@ describe ProductsController, type: :controller do
     it "admin user can update a product, redirected to products page" do
       sign_in admin
       patch :update, params: {id: product.id, product: {name: 'CHEANGED Laptop 1', price: 500, image_url: "", description: "", features: "", showcase_images: ""}}
-      expect(Product.all.length == 1 && Product.all.first.name == 'CHEANGED Laptop 1').to eq(true)
+      expect(Product.all.reload.size == 1 && Product.all.first.name == 'CHEANGED Laptop 1').to eq(true)
       expect(response).to redirect_to product_path(product.id)
     end
   end
