@@ -28,16 +28,16 @@ describe Product do
   end
 
   context "when a product is created" do
-    it "returns no validation error if name and price(>=0) entered" do
-      expect(FactoryBot.build(:product, price: 1000)).to be_valid
+    it "returns no validation error if name and price_in_cents(>=0) entered" do
+      expect(FactoryBot.build(:product, price_in_cents: 1000)).to be_valid
     end
 
-    it "returns validation error if no price entered" do
-      expect(FactoryBot.build(:product, price: nil)).not_to be_valid
+    it "returns validation error if no price_in_cents entered" do
+      expect(FactoryBot.build(:product, price_in_cents: nil)).not_to be_valid
     end
 
-    it "returns validation error if price wasn't equal or greater than 0" do
-      expect(FactoryBot.build(:product, price: -1000)).not_to be_valid
+    it "returns validation error if price_in_cents wasn't equal or greater than 0" do
+      expect(FactoryBot.build(:product, price_in_cents: -1000)).not_to be_valid
     end
 
     it "returns validation error if no name entered" do

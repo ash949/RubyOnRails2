@@ -63,6 +63,10 @@
         <p class="product-price">Price: <%= @product.price %>$</p>
         <button class="btn btn-success">Add To Cart</button>
         <div class="clearfix"></div>
+        <%= form_with(url: '/payments/create' ) do |form| %>
+          <%= render partial: "shared/stripe_checkout_button" %>
+        <% end %>
+        <div class="clearfix"></div>
       </div>
       <h4><strong>Highest rating review</strong></h4>
       <div class='comment'>

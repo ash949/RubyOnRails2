@@ -5,7 +5,8 @@ class Product < ApplicationRecord
   has_many :comments
 
   validates :name, presence: true
-  validates :price, numericality: {greater_than_or_equal_to: 0.0}
+  validates :price_in_cents, numericality: {greater_than_or_equal_to: 0}
+  validates :price_in_cents, numericality: {integer_only: true}
   
   def self.search(search_term)
     search_term.strip!
@@ -26,6 +27,15 @@ class Product < ApplicationRecord
 
   def compute_average
     self.comments.average(:rating)
+  end
+
+  def price
+    cents = (self.price_in_cents % 100).to_s
+    if ( cents.to_s.length == 1 )
+      cents = '0' + cents
+    end
+    dollars = (self.price_in_cents / 100).to_s
+    return dollars + '.' + cents
   end
   
 end

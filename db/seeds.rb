@@ -20,7 +20,7 @@ Product.create([
     image_url: "product.jpg",
     description: "Amazing Product",
     features: "CPU: Core i7 7700HQ 4.0GZ|||GPU: GTX 1060|||RAM: 16 GB DDR4 3200MHZ|||SSD: 480GB",
-    price: 500.0,
+    price_in_cents: 50000,
     showcase_images: "product.jpg|||product.jpg|||product.jpg"
   },
   {
@@ -28,7 +28,7 @@ Product.create([
     image_url: "product.jpg",
     description: "Amazing Product",
     features: "CPU: Core i7 7700HQ 4.0GZ|||GPU: GTX 1060",
-    price: 450.0,
+    price_in_cents: 45000,
     showcase_images: "product.jpg|||product.jpg|||product.jpg|||product.jpg|||product.jpg|||product.jpg"
   },
   {
@@ -36,7 +36,7 @@ Product.create([
     image_url: "product.jpg",
     description: "Amazing Product",
     features: "CPU: Core i7 7700HQ 4.0GZ|||GPU: GTX 1060|||RAM: 16 GB DDR4 3200MHZ",
-    price: 1500.0,
+    price_in_cents: 150000,
     showcase_images: "product.jpg"
   },
   {
@@ -44,7 +44,7 @@ Product.create([
     image_url: "product.jpg",
     description: "Amazing Product",
     features: "CPU: Core i7 7700HQ 4.0GZ|||GPU: GTX 1060|||RAM: 16 GB DDR4 3200MHZ|||SSD: 480GB",
-    price: 1000.0,
+    price_in_cents: 100000,
     showcase_images: "product.jpg|||product.jpg"
   }
 ]);

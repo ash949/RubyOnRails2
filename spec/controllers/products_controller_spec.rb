@@ -115,20 +115,20 @@ describe ProductsController, type: :controller do
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user
-      post :create, params: {product: {name: 'Laptop 1', price: 500, image_url: "", description: "", features: "", showcase_images: ""}}
+      post :create, params: {product: {name: 'Laptop 1', price_in_cents: 500, image_url: "", description: "", features: "", showcase_images: ""}}
       expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
       expect(response).to redirect_to root_url
     end
 
     it "not authenticated - non-admin not logged_in user, redirected to login page" do
-      post :create, params: {product: {name: 'Laptop 1', price: 500, image_url: "", description: "", features: "", showcase_images: ""}}
+      post :create, params: {product: {name: 'Laptop 1', price_in_cents: 500, image_url: "", description: "", features: "", showcase_images: ""}}
       expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
       expect(response).to redirect_to new_user_session_path
     end
 
     it "admin user can create a product, redirected to products page" do
       sign_in admin
-      post :create, params: {product: {name: 'Laptop 1', price: 500, image_url: "", description: "", features: "", showcase_images: ""}}
+      post :create, params: {product: {name: 'Laptop 1', price_in_cents: 500, image_url: "", description: "", features: "", showcase_images: ""}}
       expect(Product.all.reload.size == 1 && Product.all.first.name == 'Laptop 1').to eq(true)
       expect(response).to redirect_to product_path(Product.last.id)
     end
@@ -142,20 +142,20 @@ describe ProductsController, type: :controller do
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user
-      patch :update, params: {id: product.id, product: {name: 'CHEANGED Laptop 1', price: 500, image_url: "", description: "", features: "", showcase_images: ""}}
+      patch :update, params: {id: product.id, product: {name: 'CHEANGED Laptop 1', price_in_cents: 500, image_url: "", description: "", features: "", showcase_images: ""}}
       expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
       expect(response).to redirect_to root_url
     end
 
     it "not authenticated - non-admin not logged_in user, redirected to login page" do
-      patch :update, params: {id: product.id, product: {name: 'CHEANGED Laptop 1', price: 500, image_url: "", description: "", features: "", showcase_images: ""}}
+      patch :update, params: {id: product.id, product: {name: 'CHEANGED Laptop 1', price_in_cents: 500, image_url: "", description: "", features: "", showcase_images: ""}}
       expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
       expect(response).to redirect_to new_user_session_path
     end
 
     it "admin user can update a product, redirected to products page" do
       sign_in admin
-      patch :update, params: {id: product.id, product: {name: 'CHEANGED Laptop 1', price: 500, image_url: "", description: "", features: "", showcase_images: ""}}
+      patch :update, params: {id: product.id, product: {name: 'CHEANGED Laptop 1', price_in_cents: 500, image_url: "", description: "", features: "", showcase_images: ""}}
       expect(Product.all.reload.size == 1 && Product.all.first.name == 'CHEANGED Laptop 1').to eq(true)
       expect(response).to redirect_to product_path(product.id)
     end

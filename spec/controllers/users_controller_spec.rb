@@ -153,9 +153,9 @@ describe UsersController, type: :controller do
 
     it "admin user can create a user, redirected to user's show page" do
       sign_in admin
-      post :create, params: {user: {first_name: "", last_name: "", email: "test0@test0", password: "123123", password_confirmation: "123123", admin: "0"}}
-      expect(User.all.reload.size == 3 && User.all.last.email == 'test0@test0').to eq(true)      
-      expect(response).to redirect_to user_path(User.all.where("email = 'test0@test0'").first.id)
+      post :create, params: {user: {first_name: "", last_name: "", email: "test_inserted@test_inserted", password: "123123", password_confirmation: "123123", admin: "0"}} 
+      expect( User.all.reload.find(assigns(:user).id).email == "test_inserted@test_inserted" ).to eq(true)      
+      expect(response).to redirect_to user_path(User.all.where("email = 'test_inserted@test_inserted'").first.id)
     end
   end
 
