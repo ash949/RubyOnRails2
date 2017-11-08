@@ -10,7 +10,8 @@ class PaymentsController < ApplicationController
         amount: current_user.active_order.total_cost, # amount in cents, again
         currency: "usd",
         source: token,
-        description: params[:stripeEmail][0,22]
+        receipt_email: params[:stripeEmail],
+        description: 'OrderID: ' + current_user.active_order.id.to_s
       )
       if charge.paid
         current_user.active_order.deliver
