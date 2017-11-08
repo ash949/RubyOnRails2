@@ -11,7 +11,7 @@ class PaymentsController < ApplicationController
         description: params[:stripeEmail][0,22]
       )
       if charge.paid        
-        redirect_to user_order_path(@product.id), notice: 'transaction has successfully been completed'
+        redirect_to user_order_path(current_user.id, current_user.active_order.id), notice: 'transaction has successfully been completed'
       end
     rescue Stripe::CardError => e
       flash[:error] = e.message
