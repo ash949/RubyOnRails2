@@ -15,6 +15,11 @@ Rails.application.routes.draw do
     end
   end
 
+  post 'users/:user_id/orders/:order_id/products/:id', to: 'products#add_to_cart'
+  
+  #payments
+  post 'payments/create'
+
   
   #root
   root 'static_pages#landing_page'

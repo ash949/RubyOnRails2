@@ -1,17 +1,20 @@
 $(document).on('turbolinks:load', function(){
-  var stars_hints = ['Bad', 'Poor', 'Mediocre', 'Good', 'Amazing']
-  $('.rating').raty({
+  var stars_hints = ['Bad', 'Poor', 'Mediocre', 'Good', 'Amazing'];
+  $('.rating, .rated').raty('reload');
+  $('.rating').raty('set', {
     starHalf: '<%= asset_path 'star-half.png' %>',
     starOff: '<%= asset_path 'star-off.png' %>',
     starOn: '<%= asset_path 'star-on.png' %>',
+    numberMax: 5,
     scoreName: 'comment[rating]',
     hints: stars_hints
   });
 
-  $('.rated').raty({
+  $('.rated').raty('set', {
     starHalf: '<%= asset_path 'star-half.png' %>',
     starOff: '<%= asset_path 'star-off.png' %>',
     starOn: '<%= asset_path 'star-on.png' %>',
+    numberMax: 5,
     readOnly: true,
     noRatedMsg: 'Not Rated Yet',
     score: $(this).data('score'),

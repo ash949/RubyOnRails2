@@ -9,6 +9,7 @@
 Comment.delete_all
 Product.delete_all
 Order.delete_all
+Status.delete_all
 OrderProduct.delete_all
 Branch.delete_all
 User.delete_all
@@ -69,15 +70,29 @@ user3 = User.create!(first_name: 'admin', last_name: 'admin', email: 'admin@admi
 user3.admin = true
 user3.save
 
+active_status = Status.create!(status_type: 'active')
+canceled_status = Status.create!(status_type: 'canceled')
+delivered_status = Status.create!(status_type: 'delivered')
+
 order1 = Order.new
 order2 = Order.new
 order3 = Order.new
 order4 = Order.new
 
-product1 = Product.where('name Like ?', 'product 1')
-product2 = Product.where('name Like ?', 'product 2')
-product3 = Product.where('name Like ?', 'product 3')
-product4 = Product.where('name Like ?', 'product 4')
+order1.status = active_status
+order2.status = canceled_status
+order3.status = active_status
+order4.status = canceled_status
+
+order1.save
+order2.save
+order3.save
+order4.save
+
+product1 = Product.where('name Like ?', 'Alienware 1231').limit(1)
+product2 = Product.where('name Like ?', 'Razer Blade Pro 2016').limit(1)
+product3 = Product.where('name Like ?', 'Lenovo Ideapad 129').limit(1)
+product4 = Product.where('name Like ?', 'MSI G4244').limit(1)
 
 user1.orders << order1
 user1.orders << order2

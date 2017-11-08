@@ -1,8 +1,7 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:add_to_cart, :show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]  
   load_and_authorize_resource except: [:index, :show]
-
   # GET /products
   # GET /products.json
   def index
@@ -38,7 +37,6 @@ class ProductsController < ApplicationController
   # POST /products.json
   def create
     @product = Product.new(product_params)
-
     respond_to do |format|
       if @product.save
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
@@ -46,12 +44,18 @@ class ProductsController < ApplicationController
       else
         flash[:error] = @product.errors.full_messages
         flash[:model] = 'product'
-        puts '\n\n\n\n===================================='
-        puts flash[:error]
-        puts '====================================\n\n\n\n'
         format.html { render :new }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def add_to_cart
+    if( current_user.id.to_i == params[:user_id].to_i )
+      current_user.active_order.products << @product
+      redirect_to product_path(@product.id), notice: 'Product added to cart successfully'
+    else
+      redirect_to product_path(@product.id), alert: 'Your account is to be reviewed for suspenion'
     end
   end
 
@@ -75,8 +79,8 @@ class ProductsController < ApplicationController
   # DELETE /products/1.json
   def destroy
     if( params[:order_id] )
-      @order = Order.find(params[:order_id]).products.delete(@product)
-      redirect_to orders_path
+      current_user.active_order.order_products.where('product_id = ?', @product.id).take.destroy
+      redirect_to user_order_path(current_user.id, current_user.active_order.id)
     else
       @product.destroy
       respond_to do |format|

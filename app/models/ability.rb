@@ -10,9 +10,14 @@ class Ability
       can :show, User, id: user.id
       can :update, User, id: user.id
       can :manage, Order, user_id: user.id
+      can :destroy, Product, Product do |product|
+        product.orders.where('order_id = ?', user.active_order.id).take.user.id = user.id
+      end
+      can :add_to_cart, Product
+      # can :add_to_cart, Product, Product do |product|
+      #   product.orders.where('order_id = ?', user.active_order.id).user.id = user.id
+      # end
       can :create, Comment, user_id: user.id
-      can :show, Product
-      can :index, Product
     end
   end
 end

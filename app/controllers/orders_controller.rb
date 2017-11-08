@@ -36,7 +36,9 @@ class OrdersController < ApplicationController
     def set_order
       
       begin
-        
+        puts '\n\n\n=========================================='
+        puts params
+        puts '===========================================\n\n\n'
         @user = User.find(params[:user_id])
         @order = @user.orders.find(params[:id])
       rescue Exception

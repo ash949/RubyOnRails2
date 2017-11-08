@@ -18,11 +18,16 @@
         <tr>
           <td><%= product.name %></td>
           <td><%= product.price %></td>
-          <td><%= link_to 'Delete', [@order, product], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+          <td><%= link_to 'Delete', [@user, @order, product], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
+  <% if @order.products.length > 0 %>
+    <%= form_with(url: payments_create_url ) do |form| %>
+      <%= render partial: "shared/stripe_checkout_button" %>
+    <% end %>
+  <% end %>
 
   <%= link_to 'Orders Dashboard', user_orders_path(@user.id), class: 'btn btn-primary' %>
 

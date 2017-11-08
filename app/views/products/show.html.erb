@@ -61,12 +61,14 @@
           <span class='rated' data-score="<%= @product.compute_average%>"></span>
         </div>
         <p class="product-price">Price: <%= @product.price %>$</p>
-        <button class="btn btn-success">Add To Cart</button>
-        <div class="clearfix"></div>
-        <%= form_with(url: '/payments/create' ) do |form| %>
-          <%= render partial: "shared/stripe_checkout_button" %>
+        
+        <% if current_user %>
+          <%= form_with( model: [current_user, current_user.active_order, @product], method: :post ) do |form|%>
+            <%= form.submit 'Add To Cart', class: 'btn btn-success add-to-cart-btn'%>
+          <% end %>
+        <% else %>
+          <%= link_to 'Login To Buy', new_user_session_path, class: "btn btn-success" %>
         <% end %>
-        <div class="clearfix"></div>
       </div>
       <h4><strong>Highest rating review</strong></h4>
       <div class='comment'>
@@ -94,5 +96,3 @@
   <%= render partial: 'comment_form', locals: {comment: @comment}%>
 <% end %>
 <%= render partial: 'comments'%>
-
-
