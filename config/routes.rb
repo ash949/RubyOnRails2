@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   post 'users/:user_id/orders/:order_id/products/:id', to: 'products#add_to_cart'
   
   #payments
-  post 'payments/create'
+  post 'payments/create', to: 'payments#create'
 
   
   #root
