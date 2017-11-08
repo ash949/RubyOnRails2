@@ -312,6 +312,11 @@ textarea,
   
 }
 
+.badge-notify {
+  @extend .font-color-1-vhi;
+  background-color: red;
+}
+
 
 // Navbar Style ==========================================
 .navbar {

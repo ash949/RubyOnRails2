@@ -53,7 +53,7 @@ class ProductsController < ApplicationController
   def add_to_cart
     if( current_user.id.to_i == params[:user_id].to_i )
       current_user.active_order.products << @product
-      redirect_to product_path(@product.id), notice: 'Product added to cart successfully'
+      redirect_back fallback_location: root_url, notice: 'Product added to cart successfully'
     else
       redirect_to product_path(@product.id), alert: 'Your account is to be reviewed for suspenion'
     end

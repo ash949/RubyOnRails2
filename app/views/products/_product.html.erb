@@ -13,5 +13,11 @@
     <%= link_to 'Edit', edit_product_path(product.id), class: 'btn btn-warning'%>
     <%= link_to "Delete", product, method: :delete, class:'btn btn-danger', data: {confirm: 'Are you sure?'}%>
   <% end %>
-  <button class="btn btn-primary">Add To Cart</button>
+  <% if current_user %>
+    <%= form_with( model: [current_user, current_user.active_order, product], method: :post ) do |form|%>
+      <%= form.submit 'Add To Cart', class: 'btn btn-success add-to-cart-btn'%>
+    <% end %>
+  <% else %>
+    <%= link_to 'Login To Buy', new_user_session_path, class: "btn btn-success" %>
+  <% end %>
 </div>

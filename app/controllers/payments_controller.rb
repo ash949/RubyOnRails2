@@ -1,4 +1,6 @@
 class PaymentsController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     token = params[:stripeToken]
     
@@ -10,8 +12,10 @@ class PaymentsController < ApplicationController
         source: token,
         description: params[:stripeEmail][0,22]
       )
-      if charge.paid        
-        redirect_to user_order_path(current_user.id, current_user.active_order.id), notice: 'transaction has successfully been completed'
+      if charge.paid
+        current_user.active_order.deliver
+        current_user.active_order        
+        redirect_to user_orders_path(current_user.id), notice: 'transaction has successfully been completed'
       end
     rescue Stripe::CardError => e
       flash[:error] = e.message
