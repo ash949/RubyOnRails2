@@ -1,6 +1,5 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :destroy]
-  before_action :set_user, only: [:index]
   before_action :authenticate_user!
   load_and_authorize_resource :user
   load_and_authorize_resource :order, through: :user
@@ -23,8 +22,7 @@ class OrdersController < ApplicationController
   # DELETE /orders/1
   # DELETE /orders/1.json
   def destroy
-    @user.orders.find(@order.id).destroy
-    
+    @order.destroy
     respond_to do |format|
       format.html { redirect_to user_orders_url(@user.id), notice: 'Order was successfully destroyed.' }
       format.json { head :no_content }
@@ -34,25 +32,11 @@ class OrdersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_order
-      
       begin
-        puts '\n\n\n=========================================='
-        puts params
-        puts '===========================================\n\n\n'
-        @user = User.find(params[:user_id])
-        @order = @user.orders.find(params[:id])
+        @order = Order.find(params[:id])
       rescue Exception
         redirect_to root_url, alert: 'No valid ID provided to show the object'
       end
-    end
-
-    def set_user
-      begin
-        @user = User.find(params[:user_id])
-      rescue Exception
-        redirect_to root_url, alert: 'No valid ID provided to show the object'
-      end
-      
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

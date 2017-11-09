@@ -15,12 +15,22 @@ class Order < ApplicationRecord
   end
 
   def deliver
-    update(status: Status.all.where("status_type = 'delivered'").take) 
+    update(status: Status.delivered) 
   end
 
   def cancel
-    update(status: Status.all.where("status_type = 'cenceled'").take)
+    update(status: Status.canceled)
   end
+
+  def delivered
+    update(status: Status.delivered) 
+  end
+
+  scope :canceled, -> { where('status_id = ?', Status.canceled.id ) }
+  scope :delivered, -> { where('status_id = ?', Status.delivered.id ) }
+  scope :active, -> { where('status_id = ?', Status.active.id ) }
+
+  
 
   def total_cost_in_dollars
     cost = self.total_cost

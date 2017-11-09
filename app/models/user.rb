@@ -7,13 +7,17 @@ class User < ApplicationRecord
 
   has_many :comments
 
+
+  def full_name
+    first_name + ' ' + last_name
+  end
   
   def active_order
-    active_state = Status.all.find_by(status_type: 'active')
-    if orders.find_by(status_id: Status.find_by(status_type: 'active').id )
-    else      
-      orders.create!(status: active_state)
+    byebug
+    order = orders.active.take
+    unless orders.active.exists?
+      order = orders.create!(status: Status.active)
     end
-    return orders.find_by(status_id: Status.find_by(status_type: 'active').id )
+    return order
   end
 end

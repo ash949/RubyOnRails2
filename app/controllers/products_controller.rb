@@ -5,7 +5,6 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @search_form = true
     if ( params[:search_term] )
       @products = Product.search(params[:search_term])
     else
@@ -51,7 +50,7 @@ class ProductsController < ApplicationController
   end
 
   def add_to_cart
-    if( current_user.id.to_i == params[:user_id].to_i )
+    if( current_user.id == params[:user_id].to_i )
       current_user.active_order.products << @product
       redirect_back fallback_location: root_url, notice: 'Product added to cart successfully'
     else

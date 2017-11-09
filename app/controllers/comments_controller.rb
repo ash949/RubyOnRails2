@@ -3,6 +3,7 @@ class CommentsController < ApplicationController
 
   def destroy
     set_comment
+    byebug
     authorize! :destroy, @comment
     @comment.destroy
     @product = @comment.product

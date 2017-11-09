@@ -5,15 +5,17 @@ class Product < ApplicationRecord
   has_many :comments
 
   validates :name, presence: true
-  validates :price_in_cents, numericality: {greater_than_or_equal_to: 0}
-  validates :price_in_cents, numericality: {integer_only: true}
+  validates :price_in_cents, numericality: {
+    greater_than_or_equal_to: 0, integer_only: true
+  }
+
   
   def self.search(search_term)
     search_term.strip!
-    if (Rails.env.development? || Rails.env.test?)
-      Product.where('lower(name) LIKE ?', "%#{search_term}%")
-    else
+    if (Rails.env.production?)
       Product.where('lower(name) ilike ?', "%#{search_term}%")
+    else
+      Product.where('lower(name) LIKE ?', "%#{search_term}%")
     end
   end
 

@@ -11,7 +11,8 @@ class Ability
       can :update, User, id: user.id
       can :manage, Order, user_id: user.id
       can :destroy, Product, Product do |product|
-        product.orders.where('order_id = ?', user.active_order.id).take.user.id = user.id
+        product.orders.active.take.user.id = user.id
+        byebug
       end
       can :add_to_cart, Product
       # can :add_to_cart, Product, Product do |product|
