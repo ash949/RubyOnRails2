@@ -1,11 +1,11 @@
 class UserRegistrationsController < Devise::RegistrationsController
 
-  def create
-    super
-    if @user.persisted?
-      UserMailer.welcome(@user.first_name + ' ' + @user.last_name, @user.email).deliver_now
-    end
-  end
+  # def create
+  #   super
+  #   if @user.confirmed?
+  #     UserMailer.welcome(@user.full_name, @user.email).deliver_now
+  #   end
+  # end
 
   def after_update_path_for(resource)
     notice = "Account succesfully updated"
