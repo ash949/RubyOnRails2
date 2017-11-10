@@ -13,6 +13,7 @@ Devise.setup do |config|
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
   config.mailer_sender = 'H.ASH.shop@outlook.com'
+  config.action_mailer.perform_deliveries = true
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
