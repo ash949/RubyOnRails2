@@ -22,15 +22,9 @@ class User < ApplicationRecord
     return order
   end
 
-  def after_save(user)            
-    if user.confirmed_at_changed?
-      UserMailer.welcome(user.full_name, user.email).deliver_now
-    end
-  end
-
   private
   def send_welcome_email
-    if self.confirmed?
+    if self.confirmed_at_changed?
       UserMailer.welcome(full_name, email).deliver_now
     end
   end
