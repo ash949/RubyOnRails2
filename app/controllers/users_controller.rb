@@ -50,7 +50,6 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    byebug
     updated = false
     update_params = user_params
     if( params[:user][:password].blank? )

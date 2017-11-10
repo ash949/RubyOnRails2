@@ -39,6 +39,7 @@ group :development, :test do
   end
   gem 'rails-controller-testing'
   gem "factory_bot_rails", "~> 4.0"
+  gem "brakeman"
 end
 
 group :development do
