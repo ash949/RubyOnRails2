@@ -1,3 +1,4 @@
+<% cache product do %>
 <div>
   <a class="product-image" href="/products/<%= product.id%>"><%= image_tag product.image_url, class: "img-responsive", alt: product.description%></a>
   <%= link_to "#{product.name}", product, class: 'product-name' %>
@@ -21,3 +22,6 @@
     <%= link_to 'Login To Buy', new_user_session_path, class: "btn btn-success" %>
   <% end %>
 </div>
+
+<% end %>
+<% # end - product caching %>

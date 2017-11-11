@@ -5,14 +5,16 @@
   <header>
     <h1>Products</h1>
   </header>
-  
-  <ul class="product-list">
-    <% @products.each do |product| %>
-    <li class="col-xs-12 col-sm-4">
-      <%= render partial: "product", locals:{product: product} %>
-    </li>
-    <% end %>
-  </ul>
-  <div class="clearfix"></div>
-  <%= will_paginate @products %>
+  <% cache(cache_key_for_products) do%>
+    <ul class="product-list">
+      <% @products.each do |product| %>
+        <li class="col-xs-12 col-sm-4">
+          <%= render partial: 'product', locals: { product: product } %>
+        </li>
+      <% end %>
+    </ul>
+    <div class="clearfix"></div>
+    <%= will_paginate @products %>
+  <% end %>
+  <% # end - @products cache %>
 </section><!-- end - product-lists -->

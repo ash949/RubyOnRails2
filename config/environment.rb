@@ -12,5 +12,3 @@ ActionMailer::Base.smtp_settings = {
   password: ENV['SENDGRID'],
   enable_starttls_auto: true
 }
-
-
