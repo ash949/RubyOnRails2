@@ -3,9 +3,9 @@
     <h3><strong>Users Reviews</strong></h3>
   </header>
   <ul class="row">
-  <% if @comments.count > 0 %>
+  <% if @comments.exists? %>
     <% @comments.each do |comment| %>
-      <li class="comment col-xs-12 col-sm-12 col-md-8">
+      <li class="comment col-xs-12 col-sm-12 col-md-8"> 
         <%= render partial: 'comment', locals: {comment: comment}%>
       </li>
     <% end %>
@@ -14,5 +14,5 @@
   <% end %>
   </ul>
   <div class="clearfix"></div>
-  <%= will_paginate @comments%>
+  <%= will_paginate @comments %>
 </section><!-- end - Users' Reviews -->

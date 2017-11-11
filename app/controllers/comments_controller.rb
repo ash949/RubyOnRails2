@@ -19,6 +19,7 @@ class CommentsController < ApplicationController
       if @comment.save
         format.html{ redirect_to @product, notice: 'Your review has been submitted successfully'} 
         format.json { render :show, status: :created, location: @product }
+        format.js
       else
         format.html{ redirect_to @product, flash: { error: @comment.errors.full_messages, model: 'review' } } 
         format.json { render json: @comment.errors, status: :unprocessable_entity }

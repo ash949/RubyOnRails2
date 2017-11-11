@@ -66,11 +66,11 @@
         <% end %>
       </div>
       <h4><strong>Highest rating review</strong></h4>
-      <div class='comment'>
+      <div class='comment highest-rating-comment'>
         <%= render partial: 'comment', locals: {comment: @product.highest_rating_comment}%>
       </div>
       <h4><strong>Lowest rating review</strong></h4>
-      <div class='comment'>
+      <div class='comment lowest-rating-comment'>
         <%= render partial: 'comment', locals: {comment: @product.lowest_rating_comment}%>
       </div>
     </div>
@@ -88,6 +88,11 @@
 <div class="clearfix"></div>
 
 <% if user_signed_in? %>
-  <%= render partial: 'comment_form', locals: {comment: @comment}%>
+  
+  <% if !current_user.product_review(@product.id) %>
+    <%= render partial: 'comment_form', locals: {comment: @comment}%>
+  <% else %>
+    <%= render partial: 'current_user_comment', locals: {comment: current_user.product_review(@product.id) }%>
+  <% end %>
 <% end %>
 <%= render partial: 'comments'%>

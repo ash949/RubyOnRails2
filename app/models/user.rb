@@ -13,6 +13,10 @@ class User < ApplicationRecord
   def full_name
     first_name + ' ' + last_name
   end
+
+  def product_review(product_id)
+    comments.find_by(product_id: product_id)
+  end
   
   def active_order
     order = orders.active.take

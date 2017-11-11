@@ -1,5 +1,5 @@
-$(document).on('turbolinks:load', function(){
-  var stars_hints = ['Bad', 'Poor', 'Mediocre', 'Good', 'Amazing'];
+var stars_hints = ['Bad', 'Poor', 'Mediocre', 'Good', 'Amazing'];
+var refreshProductRating = function(){
   $('.rating, .rated').raty('reload');
   $('.rating').raty('set', {
     starHalf: '<%= asset_path 'star-half.png' %>',
@@ -20,30 +20,26 @@ $(document).on('turbolinks:load', function(){
     score: $(this).data('score'),
     hints: stars_hints
   });
+};
 
-  function initElevateZoom(){
-    $.when(
-      $('.zoomContainer').remove()
-    ).then(
-      $('.carousel-inner .item.active img').elevateZoom({
-        zoomType: 'lens',
-        borderSize: 1,
-        scrollZoom: true,
-        lensShape: 'round'
-      })
-    );
-  };
+var initElevateZoom = function(){
+  $.when(
+    $('.zoomContainer').remove()
+  ).then(
+    $('.carousel-inner .item.active img').elevateZoom({
+      zoomType: 'lens',
+      borderSize: 1,
+      scrollZoom: true,
+      lensShape: 'round'
+    })
+  );
+};
 
+$(document).on('turbolinks:load', function(){
+  refreshProductRating();
   $('.product-showcase .carousel').on('slid.bs.carousel', function(){
     initElevateZoom();
   });
 
-  
-
   initElevateZoom();
-
-  <%# $('.carousel-indicators li').on('click', function(){
-    $('body').remove('.zoomContainer')
-    initElevateZoom();
-  }); %>
 });
