@@ -1,6 +1,7 @@
 var addComment = function(){
   $('.review-form').fadeOut(500, function(){
     $(this).replaceWith("<%= j render partial: 'products/current_user_comment', locals: {comment: @comment }%>");
+    refreshProductRating()
   });
   $('.product-reviews >ul ').prepend(
     "<li class='comment col-xs-12 col-sm-12 col-md-8'>" +
