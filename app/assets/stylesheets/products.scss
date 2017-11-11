@@ -70,8 +70,9 @@
   }
 
   .carousel-indicators {
-    height: 45px;
+    height: 60px;
     overflow-x: scroll;
+    overflow-y: hidden;
     >li,
     >li.active {
       display: block;
@@ -99,6 +100,10 @@
     padding: 0;
     left: 0;
     bottom: -20%;
+  }
+
+  .carousel-control {
+    width: 6%;
   }
 }
 

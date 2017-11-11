@@ -7,15 +7,15 @@
     
     <div class="product-showcase col-xs-12 col-sm-12 col-md-8">
       <div>
-        <div id="showcase-carousel" class="carousel slide" data-ride="carousel">
+        <div id="showcase-carousel" class="carousel slide carousel-fade" data-ride="carousel">
           <!-- Indicators -->
           <ol class="carousel-indicators">
             <li data-target="#showcase-carousel" data-slide-to="0" class="active">
-              <%= image_tag @product.image_url, class: "img-responsive" %>
+              <%= image_tag asset_path('small/' + @product.image_url), class: "img-responsive" %>
             </li>
             <% @product.showcase_images.split("|||").each_with_index do |showcase_image, i| %>
               <li data-target="#showcase-carousel" data-slide-to="<%= i + 1 %>">
-                <%= image_tag showcase_image, class: "img-responsive" %>
+                <%= image_tag asset_path('small/' + showcase_image), class: "img-responsive" %>
               </li>
             <% end %>
           </ol>
@@ -23,19 +23,14 @@
           <!-- Wrapper for slides -->
           <div class="carousel-inner" role="listbox">
             <div class="item active">
-              <%= image_tag @product.image_url, class: "img-responsive", alt: "Slide 1" %>
-              <%# <div class="carousel-caption">
-              </div> %>
+              <%= image_tag asset_path('medium/' + @product.image_url), class: "img-responsive", data: { zoom_image: asset_path('large/' + @product.image_url) }, alt: "Slide 1" %>
             </div>
             <% @product.showcase_images.split("|||").each_with_index do |showcase_image, i| %>
             <div class="item">
-              <%= image_tag showcase_image, class: "img-responsive", alt: "Slide #{i}" %>
-              <%# <div class="carousel-caption">
-              </div> %>
+              <%= image_tag asset_path('medium/' + showcase_image), class: "img-responsive" , data: { zoom_image: asset_path('large/' + showcase_image) }, alt: "Slide #{i + 2}" %>
             </div>
             <% end %>
           </div>
-        
           <!-- Controls -->
           <a class="left carousel-control" data-target="#showcase-carousel" role="button" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>

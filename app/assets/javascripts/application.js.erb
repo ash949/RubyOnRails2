@@ -14,6 +14,7 @@
 //= require turbolinks
 //= require jquery3
 //= require jquery.raty
+//= require jquery.elevateZoom
 //= require site
 //= require_tree .
 
@@ -70,6 +71,9 @@ changeCoordinates = function(){
 };
 
 $(document).on('turbolinks:load', function(){
+  $('.product-showcase .carousel').carousel({
+      interval: false
+  });
   $('[data-toggle="tooltip"]').tooltip();
 
   $('#user-buttons .glyphicon-user').on('click', function(){
