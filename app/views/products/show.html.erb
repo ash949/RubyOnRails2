@@ -1,3 +1,10 @@
+<% @product.viewed %>
+<h1>  
+  Views:
+  <span class="badge">
+    <%= @product.views %>
+  </span>
+</h1> 
 <% cache @product do %>
   <section class="container margin-bottom-md">
     <header>

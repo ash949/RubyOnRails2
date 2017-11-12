@@ -19,6 +19,7 @@ class Product < ApplicationRecord
     end
   end
 
+  #============ product computed properties ================
   def highest_rating_comment
     comments.rating_desc.first
   end
@@ -43,6 +44,15 @@ class Product < ApplicationRecord
     logger.debug "Dollars except the remaining cents : #{dollars}"
     logger.debug "To be returned: #{dollars}.#{cents}"
     return dollars + '.' + cents
+  end
+
+  #============ Redis caching related methods ================
+  def views
+    $redis.get("product-#{id}")
+  end
+  
+  def viewed
+    $redis.incr("product-#{id}")
   end
   
 end

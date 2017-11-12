@@ -5,6 +5,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
+    @search_form = true
     if ( params[:search_term] )
       @products = Product.search(params[:search_term])
     else
