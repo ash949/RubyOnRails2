@@ -30,7 +30,7 @@ module App2
     config.logger = ActiveSupport::Logger.new(STDOUT)
 
     if Rails.env.production?
-      # config.cache_store = :redis_store, "redis://localhost:6379/0/cache"
+      config.cache_store = :redis_store, "redis:redis-18854.c16.us-east-1-2.ec2.cloud.redislabs.com:18854/0/cache"
     else
       config.cache_store = :redis_store, "redis://localhost:6379/0/cache"
     end
