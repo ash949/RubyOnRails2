@@ -64,10 +64,16 @@ Branch.create([
 ])
 
 #ORM
-user1 = User.create!(first_name: 'test1', last_name: 'test1', email: 'test1@test1', password: '123123')
-user2 = User.create!(first_name: 'test2', last_name: 'test2', email: 'test2@test2', password: '123123')
-user3 = User.create!(first_name: 'admin', last_name: 'admin', email: 'admin@admin', password: '123123')
+user1 = User.new(first_name: 'test1', last_name: 'test1', email: 'test1@test1', password: '123123')
+user2 = User.new(first_name: 'test2', last_name: 'test2', email: 'test2@test2', password: '123123')
+user3 = User.new(first_name: 'admin', last_name: 'admin', email: 'admin@admin', password: '123123')
 user3.admin = true
+
+user1.skip_confirmation!
+user1.save
+user2.skip_confirmation!
+user2.save
+user3.skip_confirmation!
 user3.save
 
 active_status = Status.create!(status_type: 'active')
