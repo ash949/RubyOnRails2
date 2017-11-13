@@ -93,7 +93,7 @@ Rails.application.configure do
   
   config.action_cable.url = "wss://rubyhamza.herokuapp.com/cable"
   config.action_cable.allowed_request_origins = ['https://rubyhamza.herokuapp.com', 'http://rubyhamza.herokuapp.com']
-
+  config.app_generators.javascript_engine = :javascript
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default_url_options = {:host => 'rubyhamza.herokuapp.com', :protocol => 'http'}
   config.cache_store = :dalli_store,
