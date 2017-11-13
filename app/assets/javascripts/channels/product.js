@@ -8,7 +8,7 @@ App.product = App.cable.subscriptions.create("ProductChannel", {
   },
 
   received: function(data) {
-    if ( localStorage.getItem('user_id') != data.commentator_id )
+    //if ( localStorage.getItem('user_id') != data.commentator_id )
       $('.notification-popup').html("<strong>" + data.commentator_name + "</strong> has just reviewed " + data.product_name).promise().done(function(){
         $(this).fadeIn(300).delay(5000).fadeOut(300);
       });
