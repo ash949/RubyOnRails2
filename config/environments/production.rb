@@ -41,8 +41,8 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
-  config.action_cable.url = 'wss://guarded-island-45763.herokuapp.com/cable'
-  config.action_cable.allowed_request_origins = [ 'http://guarded-island-45763.herokuapp.com', /http:\/\/guarded-island-45763.herokuapp.*/,'https://guarded-island-45763.herokuapp.com', /https:\/\/guarded-island-45763.herokuapp.*/ ]
+  config.action_cable.url = 'wss://rubyhamza.herokuapp.com/cable'
+  config.action_cable.allowed_request_origins = [ 'http://rubyhamza.herokuapp.com', /http:\/\/rubyhamza.herokuapp.*/,'https://rubyhamza.herokuapp.com', /https:\/\/rubyhamza.herokuapp.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
@@ -93,7 +93,7 @@ Rails.application.configure do
 
   config.app_generators.javascript_engine = :javascript
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.default_url_options = {:host => 'guarded-island-45763.herokuapp.com', :protocol => 'http'}
+  config.action_mailer.default_url_options = {:host => 'rubyhamza.herokuapp.com', :protocol => 'http'}
   config.cache_store = :dalli_store,
                       (ENV["MEMCACHIER_SERVERS"] || "").split(","),
                       {:username => ENV["MEMCACHIER_USERNAME"],
