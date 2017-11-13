@@ -162,3 +162,16 @@ body{
               transform: translate3d(0, 0, 0);
     }
 }
+
+.notification-popup {
+  @extend .block-fixed;
+  @extend .display-none;
+  @extend .box-shadow-thin;
+  @extend .font-color-1-vhi;
+  @extend .background-color-1-vhi;
+  z-index: 100000;
+  padding: 1em;
+  right: 15px;
+  top: 70px;
+  width: 300px;
+}

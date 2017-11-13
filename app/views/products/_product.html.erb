@@ -1,4 +1,3 @@
-<% cache product do %>
 <div>
   <a class="product-image" href="/products/<%= product.id%>"><%= image_tag product.image_url, class: "img-responsive", alt: product.description%></a>
   <%= link_to "#{product.name}", product, class: 'product-name' %>
@@ -23,5 +22,3 @@
   <% end %>
 </div>
 
-<% end %>
-<% # end - product caching %>

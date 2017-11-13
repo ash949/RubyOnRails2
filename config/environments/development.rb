@@ -58,6 +58,8 @@ Rails.application.configure do
   if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
   end
+
+  config.app_generators.javascript_engine = :javascript
 end
 
 

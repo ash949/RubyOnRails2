@@ -5,7 +5,7 @@ var addComment = function(){
   });
   $('.product-reviews >ul ').prepend(
     "<li class='comment col-xs-12 col-sm-12 col-md-8'>" +
-      "<%= j render 'products/comment', locals: {comment: @comment} %>" +
+      "<%= j render partial: 'products/comment', locals: {comment: @comment} %>" +
     "</li>");
   $('.product-rating .rated').data('score', '<%= @product.compute_average %>');
   $('.highest-rating-comment').html("<%= j render partial: 'products/comment', locals: {comment: @product.highest_rating_comment}%>");

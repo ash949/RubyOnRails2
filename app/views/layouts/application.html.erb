@@ -18,7 +18,6 @@
 
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-
       <div class="navbar-header">
         <%= link_to 'H-ASH', root_path, class: "navbar-brand" %>
         <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#links-navbar-collapse" aria-expanded="false">
@@ -43,7 +42,11 @@
         </ul>
       </div>
     </nav><!-- end - navbar -->
-    
+    <% if user_signed_in? %>
+      <script>localStorage.setItem('user_id', '<%= current_user.id %>');</script>
+    <% else %>
+      <script>localStorage.removeItem('user_id');</script>
+    <% end %>
     <section class="container-fluid">
       <% if (notice && notice.length != 0) %>
         <%= render partial: 'shared/notice', locals: {type: 'success', message: notice}%>
@@ -53,7 +56,9 @@
       <% if flash && flash[:error] %>
         <%= render partial: 'shared/errors_flash', locals: {errors: flash[:error], model: flash[:model] }%>
       <% end %>
-    </section>
+    </section><!-- end - flash messages -->
+    <div class="notification-popup">
+    </div><!-- end - notifications popup -->
     <div id="user-buttons" class="input-group<%= " logged-in-widget" if user_signed_in? %>">
       <div class="input-group-btn">
         <button class="btn btn-primary glyphicon glyphicon-user"></button>
@@ -65,7 +70,7 @@
           <%= link_to('', new_user_registration_path, class: 'btn btn-primary glyphicon glyphicon-plus') %>
         <% end %>
       </div>
-    </div>
+    </div><!-- end - user-specific buttons (login/sighup) -->
       <% if @search_form %>
         <section class="container">
           <%= form_with( url: products_url, id: "search-form", method: 'get', local: true, class:'row' ) do |form| %>
