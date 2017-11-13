@@ -90,7 +90,8 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.logger.level = 2
-
+  
+  config.action_cable.url = "wss://rubyhamza.herokuapp.com/cable"
   config.web_socket_server_url = "wss://rubyhamza.herokuapp.com/cable"
   config.action_cable.allowed_request_origins = ['https://rubyhamza.herokuapp.com', 'http://rubyhamza.herokuapp.com']
 
