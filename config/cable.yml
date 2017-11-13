@@ -6,4 +6,4 @@ test:
 
 production:
   adapter: redis
-  url: redis://redis-18854.c16.us-east-1-2.ec2.cloud.redislabs.com:18854
+  url: redis://redis-18854.c16.us-east-1-2.ec2.cloud.redislabs.com:18854/0
