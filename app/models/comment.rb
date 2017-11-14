@@ -7,8 +7,15 @@ class Comment < ApplicationRecord
   validates :rating, numericality: {only_integer: true, message: ": You didn't rate the product"}
   validates :user, uniqueness: { scope: :product, message: ": You have already reviewed this product" }
 
-
+  # after_create_commit :broadcast_comment
+  after_create_commit { BroadcastCommentJob.perform_later(self) }
+  
   scope :rating_desc , -> { order(rating: :desc) }
   scope :rating_asc , -> { order(:rating) }
+
+  private
+  def broadcast_comment
+    BroadcastCommentJob.perform_later(self)
+  end
   
 end

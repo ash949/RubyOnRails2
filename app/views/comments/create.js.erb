@@ -1,19 +1,9 @@
-var addComment = function(){
-  $('.review-form').fadeOut(500, function(){
-    $(this).replaceWith("<%= j render partial: 'products/current_user_comment', locals: {comment: @comment }%>");
-    refreshProductRating();
-  });
-  $('.product-reviews >ul ').prepend(
-    "<li class='comment col-xs-12 col-sm-12 col-md-8'>" +
-      "<%= j render partial: 'products/comment', locals: {comment: @comment} %>" +
-    "</li>");
-  $('.product-rating .rated').data('score', '<%= @product.compute_average %>');
-  $('.highest-rating-comment').html("<%= j render partial: 'products/comment', locals: {comment: @product.highest_rating_comment}%>");
-  $('.lowest-rating-comment').html("<%= j render partial: 'products/comment', locals: {comment: @product.lowest_rating_comment}%>");
-};
-
 $.when(
-  addComment()
+  addComment( "<%= j render partial: 'products/current_user_comment', locals: {comment: @comment }%>",
+              "<%= j render partial: 'products/comment', locals: {comment: @comment }%>",
+              "<%= j render partial: 'products/comment', locals: {comment: @product.highest_rating_comment }%>",
+              "<%= j render partial: 'products/comment', locals: {comment: @product.lowest_rating_comment }%>",
+              "<%= @product.compute_average %>")
 ).done(
   refreshProductRating()
 );

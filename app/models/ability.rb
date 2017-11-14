@@ -18,6 +18,7 @@ class Ability
       #   product.orders.where('order_id = ?', user.active_order.id).user.id = user.id
       # end
       can :create, Comment, user_id: user.id
+      can :show, Comment
     end
   end
 end

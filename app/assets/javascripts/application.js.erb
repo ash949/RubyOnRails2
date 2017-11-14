@@ -47,6 +47,29 @@ initMap = function(){
   });
 };
 
+var addComment = function(your_review_section, new_comment, highest_rating_comment, lowest_rating_comment, product_average_rating){
+  console.log('======================\n' + new_comment);
+  if( your_review_section !== "" ){
+    $('.review-form').fadeOut(500, function(){
+      $(this).replaceWith(your_review_section);
+      refreshProductRating();
+    });
+  }
+  $('.product-reviews >ul ').prepend(
+    "<li class='comment col-xs-12 col-sm-12 col-md-8'>" +
+      new_comment +
+    "</li>");
+  $('.product-rating .rated').data('score', product_average_rating);
+  $('.highest-rating-comment').html(highest_rating_comment);
+  $('.lowest-rating-comment').html(lowest_rating_comment);
+};
+
+var getComment = function(product_id, comment_id, callback){
+  return $.get('/products/' + product_id + '/comments/' + comment_id, {}, function(data){
+    callback(data);
+  });
+}
+
 
 
 var changeCoordinates;

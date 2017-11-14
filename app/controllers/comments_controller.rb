@@ -1,8 +1,12 @@
 class CommentsController < ApplicationController
+  before_action :set_comment, only: [:show, :destroy]
   before_action :authenticate_user!
 
+  def show
+    render partial: 'products/comment', locals: {comment: @comment, user: current_user }
+  end
+
   def destroy
-    set_comment
     authorize! :destroy, @comment
     @comment.destroy
     @product = @comment.product
@@ -17,15 +21,11 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        ActionCable.server.broadcast 'product_show_channel',
-                                      commentator_id: @comment.user.id,
-                                      commentator_name: @comment.user.full_name,
-                                      product_name: @comment.product.name
-        format.html{ redirect_to @product, notice: 'Your review has been submitted successfully'} 
+        format.html{ redirect_to @product, notice: 'Your review has been submitted successfully'}
         format.json { render :show, status: :created, location: @product }
         format.js
       else
-        format.html{ redirect_to @product, flash: { error: @comment.errors.full_messages, model: 'review' } } 
+        format.html{ redirect_to @comment.product, flash: { error: @comment.errors.full_messages, model: 'review' } } 
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end  
     end
