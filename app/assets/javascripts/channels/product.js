@@ -1,6 +1,7 @@
 App.product = App.cable.subscriptions.create("ProductChannel", {
   connected: function() {
     console.log('User connected');
+    App.product.listen_to_comments();
   },
 
   disconnected: function() {
