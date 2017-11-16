@@ -1,0 +1,6 @@
+<% message = '' %>
+<% if @products.size == 0 %>
+  <% message = "<p>No products found matching: <strong>#{@search_term}</strong></p>"%>
+<% end %>
+$('#product-list').replaceWith("<%= j render partial: 'index' %>");
+$('.no-products-found-message').html("<%= message.html_safe %>");

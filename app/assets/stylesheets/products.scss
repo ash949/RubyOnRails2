@@ -1,6 +1,41 @@
 @import 'shared';
 
 // Product List ==========================================
+#featured_products_carousel {
+  .item{
+    img {
+      @extend .block-center;
+    }
+  }
+  
+  
+  .carousel-control {
+    background-image: none;
+  }
+  .carousel-indicators {
+    bottom: -15%;
+
+    >li{
+      @extend .border-radius-removed;
+      @extend .background-color-1-lw;
+      border-color: $background-color-1-lw;
+    }
+
+    >li.active{
+      @extend .background-color-1-hi;
+    }
+  }
+  
+  .overlay {
+    padding: 1em;
+
+    * {
+      @extend .font-color-1-vhi;
+      margin: 0;
+    }
+  }
+}
+
 .product-list {
   @extend .row-is-flex;
   
@@ -51,15 +86,34 @@
   @extend .margin-top-sm;
 }
 
-.product-views-counter {
-  float: right;
+#search-form {
+  margin: 0;
+  @extend .margin-top-md;
 
-  .badge {
-    @extend .font-color-1-vhi;
-    @extend .background-color-1-hi;
-    @extend .border-radius-removed;
-    
+  label {
+    @extend .font-bold-normal;
+    @extend .text-right;
+    font-size: 1.2em;
+    padding-right: 1em;
+    width: 95%;
+    box-sizing: border-box;
+    line-height: 34px;
   }
+
+  .btn,
+  .form-group {
+    padding-left: 0;
+    padding-right: 0;
+    * {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  #search-term {
+    padding-left: 0.5em;
+  }
+
 }
 
 // Product Showcase ==========================================
@@ -115,6 +169,17 @@
 
   .carousel-control {
     width: 6%;
+  }
+}
+
+.product-views-counter {
+  float: right;
+
+  .badge {
+    @extend .font-color-1-vhi;
+    @extend .background-color-1-hi;
+    @extend .border-radius-removed;
+    
   }
 }
 

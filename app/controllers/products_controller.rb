@@ -5,11 +5,11 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @search_form = true
+    @products = Product.all
+    @search_term = params[:search_term]
+    @featured_products = @products.featured
     if ( params[:search_term] )
-      @products = Product.search(params[:search_term])
-    else
-      @products = Product.all
+      @products = @products.search(params[:search_term])
     end
     @products = @products.paginate(page: params[:page], per_page: 9)
   end
@@ -19,18 +19,15 @@ class ProductsController < ApplicationController
   def show
     @comment = Comment.new
     @comments = @product.comments.order(created_at: :desc).paginate(page: params[:page], per_page: 2)
-    @search_form = true
   end
 
   # GET /products/new
   def new
-    @search_form = false
     @product = Product.new
   end
 
   # GET /products/1/edit
   def edit
-    @search_form = false
   end
 
   # POST /products

@@ -39,32 +39,6 @@ body{
   margin-right: 40px;
 }
 
-#search-form {
-  margin: 0;
-  @extend .margin-top-md;
-
-  label {
-    @extend .font-bold-normal;
-    @extend .text-right;
-    font-size: 1.2em;
-    padding-right: 1em;
-    width: 95%;
-    box-sizing: border-box;
-    line-height: 34px;
-  }
-
-  .btn,
-  .form-group {
-    padding-left: 0;
-    padding-right: 0;
-    * {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
-
-}
-
 #user-buttons {
   @extend .block-fixed;
   z-index: 10000;

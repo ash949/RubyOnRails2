@@ -1,9 +1,11 @@
 <% products ||= @products %>
 <section id="product-list" class="container margin-bottom-md margin-top-md">
+  
   <header>
-    <h1>Our Products</h1>
+    <h1>Products</h1>
   </header>
-  <%= render partial: 'products/search_form'%>
+  <div class='no-products-found-message container margin-bottom-md margin-top-md' >
+  </div><!-- end - empty product-list -->
   <ul class="product-list">
     <% products.each do |product| %>
       <li class="col-xs-12 col-sm-4">

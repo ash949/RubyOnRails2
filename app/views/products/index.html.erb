@@ -1,1 +1,39 @@
+<section id="featured-product" class="container margin-bottom-lg margin-top-md">
+  <header>
+    <h1>Featured Today</h1>
+  </header>
+
+  <div id="featured_products_carousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <% @featured_products.length.times do |i| %>
+      <li data-target="#featured_products_carousel" data-slide-to="<%= i.to_s %>" class="<%= 'active' if i == 0 %>"></li>
+      <% end %>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <% @featured_products.each_with_index do |featured_product, i| %>
+      <div class="item <%= 'active' if i == 0 %>">
+        <%= link_to (image_tag featured_product.image_url, class: "img-responsive", alt: featured_product.description), product_path(featured_product.id) %>
+        <div class="overlay" >
+          <h3><%= featured_product.name%></h3>
+          <p><%= featured_product.description%></p>
+        </div>
+      </div>
+      <% end %>
+    </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#featured_products_carousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#featured_products_carousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</section><!-- end - featured product section-->
+<%= render partial: 'products/search_form'%>
 <%= render partial: 'index' %>

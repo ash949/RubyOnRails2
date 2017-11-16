@@ -11,13 +11,12 @@ class Product < ApplicationRecord
 
   scope :featured, -> { order(id: :desc).limit(3) }
 
-  
-  def self.search(search_term)
+  scope :search, -> (search_term) do
     search_term.strip!
     if (Rails.env.production?)
-      Product.where('lower(name) ilike ?', "%#{search_term}%")
+      where('lower(name) ilike ?', "%#{search_term}%")
     else
-      Product.where('lower(name) LIKE ?', "%#{search_term}%")
+      where('lower(name) LIKE ?', "%#{search_term}%")
     end
   end
 
