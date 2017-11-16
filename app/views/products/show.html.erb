@@ -61,7 +61,8 @@
         </div>
         <p class="product-price">Price: <%= @product.price %>$</p>
         <% if current_user %>
-          <%= form_with( model: [current_user, current_user.active_order, @product], method: :post ) do |form|%>
+          <%= form_with( model: [current_user, current_user.active_order, OrderProduct], method: :post ) do |form|%>
+            <%= form.hidden_field :product_id, value: "#{@product.id}"%>
             <%= form.submit 'Add To Cart', class: 'btn btn-success add-to-cart-btn'%>
           <% end %>
         <% else %>

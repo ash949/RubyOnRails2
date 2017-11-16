@@ -14,16 +14,16 @@
       </tr>
     </thead>
     <tbody>
-      <% @order.products.each do |product| %>
+      <% @order.order_products.each do |order_product| %>
         <tr>
-          <td><%= product.name %></td>
-          <td><%= product.price %></td>
-          <td><%= link_to 'Delete', [@user, @order, product], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+          <td><%= order_product.product.name %></td>
+          <td><%= order_product.product.price %></td>
+          <td><%= link_to 'Delete', [@user, @order, order_product], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <% if @order.products.length > 0 %>
+  <% if @order.order_products.length > 0 %>
     <%= form_with(url: payments_create_url, method: :post ) do |form| %>
       <%= render partial: "shared/stripe_checkout_button" %>
     <% end %>

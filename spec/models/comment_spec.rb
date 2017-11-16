@@ -5,6 +5,11 @@ describe Comment do
     let(:product) { FactoryBot.build(:product) }
     let(:user) { FactoryBot.build(:user) }
 
+    before do
+      user.skip_confirmation!
+      user.save
+    end
+
     it "returns no validation error if body and rating(integer) entered with product and user" do
       expect( FactoryBot.build(:comment, product: product, user: user) ).to be_valid
     end

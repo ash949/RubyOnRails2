@@ -10,15 +10,13 @@ Rails.application.routes.draw do
 
   resources :users do
     resources :comments
-  end
-
-  resources :users do
-    resources :orders do 
-      resources :products
+    resources :orders do
+      resources :order_products
     end
   end
 
-  post 'users/:user_id/orders/:order_id/products/:id', to: 'products#add_to_cart'
+  # post 'users/:user_id/orders/:order_id/products/:id', to: 'products#add_to_cart', as: 'add_to_cart'
+  # delete 'users/:user_id/orders/:order_id/products/:id', to: 'products#remove_from_cart', as: 'remove_from_cart'
   
   #payments
   post 'payments/create', to: 'payments#create'

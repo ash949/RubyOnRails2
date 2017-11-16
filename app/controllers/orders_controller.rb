@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :destroy]
+  before_action :set_order, except: [:index]
   before_action :authenticate_user!
   load_and_authorize_resource :user
   load_and_authorize_resource :order, through: :user

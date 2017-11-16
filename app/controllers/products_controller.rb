@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:add_to_cart, :show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]  
+  before_action :authenticate_user!, except: [:index, :show]
   load_and_authorize_resource except: [:index, :show]
   # GET /products
   # GET /products.json
@@ -47,14 +47,14 @@ class ProductsController < ApplicationController
     end
   end
 
-  def add_to_cart
-    if( current_user.id == params[:user_id].to_i )
-      current_user.active_order.products << @product
-      redirect_back fallback_location: root_url, notice: 'Product added to cart successfully'
-    else
-      redirect_to product_path(@product.id), alert: 'Your account is to be reviewed for suspenion'
-    end
-  end
+  # def add_to_cart
+  #   if( current_user.id == params[:user_id].to_i )
+  #     current_user.active_order.products << @product
+  #     redirect_back fallback_location: root_url, notice: 'Product added to cart successfully'
+  #   else
+  #     redirect_to product_path(@product.id), alert: 'Your account is to be reviewed for suspenion'
+  #   end
+  # end
 
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
@@ -75,18 +75,16 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   # DELETE /products/1.json
   def destroy
-    if( params[:order_id] )
-      current_user.active_order.order_products.where('product_id = ?', @product.id).take.destroy
-      redirect_to user_order_path(current_user.id, current_user.active_order.id)
-    else
+    # if( params[:user_id] && params[:order_id] )
+    #   current_user.active_order.order_products.where('product_id = ?', @product.id).take.destroy
+    #   redirect_to user_order_path(current_user.id, current_user.active_order.id)
+    # else
       @product.destroy
       respond_to do |format|
         format.html { redirect_to products_url, notice: 'Product was successfully removed.' }
         format.json { head :no_content }
       end
-    end
-    
-    
+    # end
   end
 
   private

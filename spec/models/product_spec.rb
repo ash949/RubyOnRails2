@@ -8,6 +8,12 @@ describe Product do
     let(:user3) { FactoryBot.build(:user) }
 
     before do
+      user1.skip_confirmation!
+      user1.save
+      user2.skip_confirmation!
+      user2.save
+      user3.skip_confirmation!
+      user3.save
       product.comments.delete_all
       product.comments << FactoryBot.create(:comment, rating: 2, user: user1)
       product.comments << FactoryBot.create(:comment, rating: 4, user: user2)

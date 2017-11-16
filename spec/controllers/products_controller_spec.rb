@@ -2,6 +2,13 @@ require 'rails_helper'
 
 
 describe ProductsController, type: :controller do
+
+  before(:context) do
+    FactoryBot.create(:status, status_type: 'active')
+    FactoryBot.create(:status, status_type: 'canceled')
+    FactoryBot.create(:status, status_type: 'delivered')
+  end
+
   context "GET #index:" do
     it "renders products index template" do
       get :index
@@ -29,8 +36,15 @@ describe ProductsController, type: :controller do
   #=======================================================================================
   context "GET #new" do
     let(:product) { FactoryBot.build(:product) }
-    let(:user) { FactoryBot.create(:user) }
-    let(:admin) { FactoryBot.create(:admin) }
+    let(:user) { FactoryBot.build(:user) }
+    let(:admin) { FactoryBot.build(:admin) }
+
+    before do
+      user.skip_confirmation!
+      user.save
+      admin.skip_confirmation!
+      admin.save
+    end
 
     it "user not authorized - user is not logged in and non admin" do
       get :new
@@ -56,8 +70,15 @@ describe ProductsController, type: :controller do
   #=======================================================================================
   context "GET #edit" do
     let(:product) { FactoryBot.create(:product) }
-    let(:user) { FactoryBot.create(:user) }
-    let(:admin) { FactoryBot.create(:admin) }
+    let(:user) { FactoryBot.build(:user) }
+    let(:admin) { FactoryBot.build(:admin) }
+
+    before do
+      user.skip_confirmation!
+      user.save
+      admin.skip_confirmation!
+      admin.save
+    end
 
     it "user not authorized - user is logged in and non admin" do
       sign_in user
@@ -83,8 +104,21 @@ describe ProductsController, type: :controller do
   #=======================================================================================
   context "DELETE #destroy:" do
     let(:product) { FactoryBot.create(:product) }
-    let(:user) { FactoryBot.create(:user) }
-    let(:admin) { FactoryBot.create(:admin) }
+    let(:user) { FactoryBot.build(:user) }
+    let(:admin) { FactoryBot.build(:admin) }
+    let(:order) { FactoryBot.build(:order, user: nil) }
+    
+
+    before do
+      user.skip_confirmation!
+      user.save
+      admin.skip_confirmation!
+      admin.save
+      order.status = Status.active
+      order.products << product
+      order.save
+      user.orders << order
+    end
 
     it "not authorized - non-admin logged_in user can't delete a product, redirected to root page" do
       sign_in user
@@ -110,8 +144,15 @@ describe ProductsController, type: :controller do
   #=======================================================================================
   context "POST #create:" do
     let(:product) { Product.new() }
-    let(:user) { FactoryBot.create(:user) }
-    let(:admin) { FactoryBot.create(:admin) }
+    let(:user) { FactoryBot.build(:user) }
+    let(:admin) { FactoryBot.build(:admin) }
+
+    before do
+      user.skip_confirmation!
+      user.save
+      admin.skip_confirmation!
+      admin.save
+    end
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user
@@ -137,8 +178,15 @@ describe ProductsController, type: :controller do
   #=======================================================================================
   context "PATCH #update:" do
     let(:product) { FactoryBot.create(:product) }
-    let(:user) { FactoryBot.create(:user) }
-    let(:admin) { FactoryBot.create(:admin) }
+    let(:user) { FactoryBot.build(:user) }
+    let(:admin) { FactoryBot.build(:admin) }
+    
+    before do
+      user.skip_confirmation!
+      user.save
+      admin.skip_confirmation!
+      admin.save
+    end
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user

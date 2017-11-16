@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe UsersController, type: :controller do
+
+  before(:context) do
+    FactoryBot.create(:status, status_type: 'active')
+    FactoryBot.create(:status, status_type: 'canceled')
+    FactoryBot.create(:status, status_type: 'delivered')
+  end
+  
   context "GET #index:" do
     it "renders users index template" do
       get :index
@@ -11,9 +18,18 @@ describe UsersController, type: :controller do
 
   #=======================================================================================
   context "GET #show" do
-    let(:user1) { FactoryBot.create(:user) }
-    let(:user2) { FactoryBot.create(:user) }
-    let(:admin) { FactoryBot.create(:admin) }
+    let(:user1) { FactoryBot.build(:user) }
+    let(:user2) { FactoryBot.build(:user) }
+    let(:admin) { FactoryBot.build(:admin) }
+
+    before do
+      user1.skip_confirmation!
+      user1.save
+      user2.skip_confirmation!
+      user2.save
+      admin.skip_confirmation!
+      admin.save
+    end
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user2
@@ -53,8 +69,15 @@ describe UsersController, type: :controller do
   #=======================================================================================
   context "GET #new" do
     let(:user1) { User.new() }
-    let(:user2) { FactoryBot.create(:user) }
-    let(:admin) { FactoryBot.create(:admin) }
+    let(:user2) { FactoryBot.build(:user) }
+    let(:admin) { FactoryBot.build(:admin) }
+
+    before do
+      user2.skip_confirmation!
+      user2.save
+      admin.skip_confirmation!
+      admin.save
+    end
 
     it "user not authorized - user is logged in and non admin" do
       sign_in user2
@@ -78,10 +101,19 @@ describe UsersController, type: :controller do
   end
 
   #=======================================================================================
-  context "GET #edit" do
-    let(:user1) { FactoryBot.create(:user) }
-    let(:user2) { FactoryBot.create(:user) }
-    let(:admin) { FactoryBot.create(:admin) }
+  context "GET #edit: " do
+    let(:user1) { FactoryBot.build(:user) }
+    let(:user2) { FactoryBot.build(:user) }
+    let(:admin) { FactoryBot.build(:admin) }
+
+    before do
+      user1.skip_confirmation!
+      user1.save
+      user2.skip_confirmation!
+      user2.save
+      admin.skip_confirmation!
+      admin.save
+    end
 
     it "user not authorized - user is logged in and non admin" do
       sign_in user2
@@ -106,9 +138,18 @@ describe UsersController, type: :controller do
   
   #=======================================================================================
   context "DELETE #destroy:" do
-    let(:user1) { FactoryBot.create(:user) }
-    let(:user2) { FactoryBot.create(:user) }
-    let(:admin) { FactoryBot.create(:admin) }
+    let(:user1) { FactoryBot.build(:user) }
+    let(:user2) { FactoryBot.build(:user) }
+    let(:admin) { FactoryBot.build(:admin) }
+
+    before do
+      user1.skip_confirmation!
+      user1.save
+      user2.skip_confirmation!
+      user2.save
+      admin.skip_confirmation!
+      admin.save
+    end
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user2
@@ -135,8 +176,15 @@ describe UsersController, type: :controller do
   #=======================================================================================
   context "POST #create:" do
     let(:user1) { User.new() }
-    let(:user2) { FactoryBot.create(:user) }
-    let(:admin) { FactoryBot.create(:admin) }
+    let(:user2) { FactoryBot.build(:user) }
+    let(:admin) { FactoryBot.build(:admin) }
+
+    before do
+      user2.skip_confirmation!
+      user2.save
+      admin.skip_confirmation!
+      admin.save
+    end
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user2
@@ -153,7 +201,7 @@ describe UsersController, type: :controller do
 
     it "admin user can create a user, redirected to user's show page" do
       sign_in admin
-      post :create, params: {user: {first_name: "", last_name: "", email: "test_inserted@test_inserted", password: "123123", password_confirmation: "123123", admin: "0"}} 
+      post :create, params: {user: {first_name: "", last_name: "", email: "test_inserted@test_inserted", password: "123123", password_confirmation: "123123", admin: "0"}}
       expect( User.all.reload.find(assigns(:user).id).email == "test_inserted@test_inserted" ).to eq(true)      
       expect(response).to redirect_to user_path(User.all.where("email = 'test_inserted@test_inserted'").first.id)
     end
@@ -161,9 +209,18 @@ describe UsersController, type: :controller do
 
   #=======================================================================================
   context "PATCH #update:" do
-    let(:user1) { FactoryBot.create(:user) }
-    let(:user2) { FactoryBot.create(:user) }
-    let(:admin) { FactoryBot.create(:admin) }
+    let(:user1) { FactoryBot.build(:user) }
+    let(:user2) { FactoryBot.build(:user) }
+    let(:admin) { FactoryBot.build(:admin) }
+    
+    before do
+      user1.skip_confirmation!
+      user1.save
+      user2.skip_confirmation!
+      user2.save
+      admin.skip_confirmation!
+      admin.save
+    end
 
     it "not authorized - non-admin logged_in user, redirected to root page" do
       sign_in user2

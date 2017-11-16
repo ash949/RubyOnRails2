@@ -1,15 +1,24 @@
 require 'rails_helper'
 
 describe CommentsController, type: :controller do
+
+  before(:context) do
+    FactoryBot.create(:status, status_type: 'active')
+    FactoryBot.create(:status, status_type: 'canceled')
+    FactoryBot.create(:status, status_type: 'delivered')
+  end
   
   context "DELETE #destroy:" do
     
     let(:product) { FactoryBot.create(:product) }
-    let(:user1) { FactoryBot.create(:user) }
-    let(:admin) { FactoryBot.create(:admin) }
+    let(:user1) { FactoryBot.build(:user) }
+    let(:admin) { FactoryBot.build(:admin) }
 
     before do
-
+      user1.skip_confirmation!
+      user1.save
+      admin.skip_confirmation!
+      admin.save
       product.comments << FactoryBot.create(:comment, user: user1)
     end
 
@@ -37,10 +46,14 @@ describe CommentsController, type: :controller do
   #=======================================================================================
   context "POST #create:" do
     let(:product) { FactoryBot.create(:product) }
-    let(:user1) { FactoryBot.create(:user) }
-    let(:user2) { FactoryBot.create(:user) }
+    let(:user1) { FactoryBot.build(:user) }
+    let(:user2) { FactoryBot.build(:user) }
 
     before do
+      user1.skip_confirmation!
+      user1.save
+      user2.skip_confirmation!
+      user2.save
       product.comments << FactoryBot.create(:comment, user: user1)
     end
 
