@@ -1,17 +1,1 @@
-<section id="product-list" class="container">
-  <% if current_user && current_user.admin? %>
-    <%= link_to 'New Product', new_product_path, class: 'btn btn-warning'%>
-  <% end %>
-  <header>
-    <h1>Products</h1>
-  </header>
-  <ul class="product-list">
-    <% @products.each do |product| %>
-      <li class="col-xs-12 col-sm-4">
-        <%= render partial: 'product', locals: { product: product } %>
-      </li>
-    <% end %>
-  </ul>
-  <div class="clearfix"></div>
-  <%= will_paginate @products %>
-</section><!-- end - product-lists -->
+<%= render partial: 'index' %>

@@ -1,11 +1,5 @@
 <% @product.viewed %>
-<h1>  
-  Views:
-  <span class="badge">
-    <%= @product.views %>
-  </span>
-</h1> 
-<section class="container margin-bottom-md">
+ <section class="container margin-bottom-md">
   <header>
     <h1> <%= @product.name %></h1>
   </header>
@@ -49,6 +43,9 @@
           </a>
         </div>
         <p class="product-description"><%= @product.description %></p>
+        <div class='product-views-counter'>  
+          Views: <span class="badge"><%= @product.views %></span>
+        </div>
         <ul class="product-feature-list">
           <% @product.features.split("|||").each do |feature| %>
           <li><%= feature %></li>

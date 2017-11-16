@@ -51,6 +51,17 @@
   @extend .margin-top-sm;
 }
 
+.product-views-counter {
+  float: right;
+
+  .badge {
+    @extend .font-color-1-vhi;
+    @extend .background-color-1-hi;
+    @extend .border-radius-removed;
+    
+  }
+}
+
 // Product Showcase ==========================================
 
 .product-showcase {
@@ -122,7 +133,7 @@
   }
   
   .order-action-main {
-    @extend .background-color-1-lw;
+    @extend .background-color-1-hi;
     @extend .box-shadow-thin;
     padding: 1em;
 

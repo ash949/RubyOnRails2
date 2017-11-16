@@ -1,6 +1,6 @@
-<section id="featured-product" class="container">
+<section id="featured-product" class="container margin-bottom-lg margin-top-md">
   <header>
-    <h1>Hello <%= current_user.first_name if user_signed_in? %> and welcome to H-ASH PC Store</h1>
+    <h1>Featured Today</h1>
   </header>
 
   <div id="featured_products_carousel" class="carousel slide" data-ride="carousel">
@@ -15,12 +15,10 @@
     <div class="carousel-inner" role="listbox">
       <% @featured_products.each_with_index do |featured_product, i| %>
       <div class="item <%= 'active' if i == 0 %>">
-        <%= image_tag featured_product.image_url, class: "img-responsive", alt: featured_product.description %>
+        <%= link_to (image_tag featured_product.image_url, class: "img-responsive", alt: featured_product.description), product_path(featured_product.id) %>
         <div class="overlay" >
           <h3><%= featured_product.name%></h3>
           <p><%= featured_product.description%></p>
-        </div>
-        <div class="carousel-caption">
         </div>
       </div>
       <% end %>
@@ -36,7 +34,6 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
-  <br>
-  <br>
-  <br>
 </section><!-- end - featured product section-->
+
+<%= render partial: 'products/index', locals: { products: @products }%>

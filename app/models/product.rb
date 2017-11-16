@@ -9,6 +9,8 @@ class Product < ApplicationRecord
     greater_than_or_equal_to: 0, integer_only: true
   }
 
+  scope :featured, -> { order(id: :desc).limit(3) }
+
   
   def self.search(search_term)
     search_term.strip!

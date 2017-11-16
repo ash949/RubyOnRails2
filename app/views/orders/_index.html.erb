@@ -1,0 +1,43 @@
+<% orders ||= @orders %>
+<section class="container margin-bottom-md">
+  <header>
+    <h1>Orders</h1>
+  </header>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <%= "<th>User ID</th>".html_safe if current_user.admin? %>
+        <%= "<th>User full name</th>".html_safe if current_user.admin? %>
+        <th>Status</th>
+        <th>Total Cost</th>
+        <th colspan="3">Operations</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% orders.each do |order| %>
+        <tr>
+          <td><%= order.id %></td>
+          <%= ("<td>" + order.user.id.to_s + "</td>").html_safe if current_user.admin? %>
+          <%= ("<td>" + order.user.full_name + "</td>").html_safe if current_user.admin? %>
+          <td><%= order.status.status_type %></td>
+          <td>$<%= order.total_cost_in_dollars %></td>
+          <% if order.status.status_type == 'active'%>
+            <td class="text-center"><%= link_to 'Pay With Card', [@user, order], class: 'btn btn-success'%></td>
+            <td><%= link_to 'Destroy', [@user, order], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+          <% else %>
+            <td></td>
+            <td></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br>
+
+  <%#= link_to 'New Order', new_order_path, class: 'btn btn-primary' %>
+
+</section><!-- end - Orders Dashboard -->

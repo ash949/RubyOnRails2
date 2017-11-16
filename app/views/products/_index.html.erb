@@ -1,0 +1,19 @@
+<% products ||= @products %>
+<section id="product-list" class="container margin-bottom-md margin-top-md">
+  <header>
+    <h1>Our Products</h1>
+  </header>
+  <%= render partial: 'products/search_form'%>
+  <ul class="product-list">
+    <% products.each do |product| %>
+      <li class="col-xs-12 col-sm-4">
+        <%= render partial: 'products/product', locals: { product: product } %>
+      </li>
+    <% end %>
+  </ul>
+  <div class="clearfix"></div>
+  <% if current_user && current_user.admin? %>
+    <%= link_to 'New Product', new_product_path, class: 'btn btn-warning'%>
+  <% end %>
+  <%= will_paginate products %>
+</section><!-- end - product-lists -->

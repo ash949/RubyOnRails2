@@ -26,3 +26,5 @@
   <%= link_to 'Users', users_path, class: 'btn btn-primary' %>
 
 </section><!-- end - show single user-->
+
+<%= render partial: 'orders/index', locals: { orders: @user.orders }%>

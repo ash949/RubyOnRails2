@@ -40,6 +40,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem "factory_bot_rails", "~> 4.0"
   gem "brakeman"
+  gem 'rubocop', '~> 0.51.0', require: false
 end
 
 group :development do
