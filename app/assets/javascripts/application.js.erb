@@ -94,6 +94,7 @@ changeCoordinates = function(){
 };
 
 $(document).on('turbolinks:load', function(){
+  refreshProductRating();
   $('.product-showcase .carousel').carousel({
       interval: false
   });
