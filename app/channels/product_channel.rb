@@ -1,7 +1,6 @@
+# product channel (related to comments notifications and rendering new comment)
 class ProductChannel < ApplicationCable::Channel
-  def subscribed
-    # stream_from "product_show_channel"
-  end
+  def subscribed; end
 
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
@@ -9,6 +8,6 @@ class ProductChannel < ApplicationCable::Channel
 
   def listen(data)
     stop_all_streams
-    stream_for data["product_id"]
+    stream_for data['product_id']
   end
 end

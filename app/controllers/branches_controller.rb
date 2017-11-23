@@ -1,7 +1,6 @@
+# branches controller
 class BranchesController < ApplicationController
-  
-  def get_coordinates 
+  def coordinates
     render json: Branch.all
   end
-
 end

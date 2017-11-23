@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-get_actions = [[:index, 'index'],[:contact, 'contact'],[:about, 'about']]
+get_actions = [[:index, 'index'], [:contact, 'contact'], [:about, 'about']]
 
 describe StaticPagesController, type: :controller do
   get_actions.each do |action|

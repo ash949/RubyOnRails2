@@ -1,3 +1,4 @@
+# products helper module
 module ProductsHelper
   def cache_key_for_products
     count          = Product.count

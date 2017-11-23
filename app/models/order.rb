@@ -1,3 +1,4 @@
+# order model
 class Order < ApplicationRecord
   belongs_to :user
   has_many :order_products
@@ -11,11 +12,11 @@ class Order < ApplicationRecord
     products.each do |product|
       sum += product.price_in_cents
     end
-    return sum
+    sum
   end
 
   def deliver
-    update(status: Status.delivered) 
+    update(status: Status.delivered)
   end
 
   def cancel
@@ -23,22 +24,17 @@ class Order < ApplicationRecord
   end
 
   def delivered
-    update(status: Status.delivered) 
+    update(status: Status.delivered)
   end
 
-  scope :canceled, -> { where('status_id = ?', Status.canceled.id ) }
-  scope :delivered, -> { where('status_id = ?', Status.delivered.id ) }
-  scope :active, -> { where('status_id = ?', Status.active.id ) }
-
-  
+  scope :canceled, -> { where('status_id = ?', Status.canceled.id) }
+  scope :delivered, -> { where('status_id = ?', Status.delivered.id) }
+  scope :active, -> { where('status_id = ?', Status.active.id) }
 
   def total_cost_in_dollars
-    cost = self.total_cost
+    cost = total_cost
     cents = (cost % 100).to_s
-    if ( cents.to_s.length == 1 )
-      cents = '0' + cents
-    end
-    dollars = (cost / 100).to_s
-    return dollars + '.' + cents
+    cents = '0' + cents if cents.to_s.length == 1
+    (cost / 100).to_s + '.' + cents
   end
 end

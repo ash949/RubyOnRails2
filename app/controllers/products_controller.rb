@@ -1,16 +1,15 @@
+# products controller
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:add_to_cart, :show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
-  load_and_authorize_resource except: [:index, :show]
+  before_action :set_product, only: %i[show edit update destroy]
+  before_action :authenticate_user!, except: %i[index show]
+  load_and_authorize_resource except: %i[index show]
   # GET /products
   # GET /products.json
   def index
     @products = Product.all
     @search_term = params[:search_term]
     @featured_products = @products.featured
-    if ( params[:search_term] )
-      @products = @products.search(params[:search_term])
-    end
+    @products = @products.search(params[:search_term]) if params[:search_term]
     @products = @products.paginate(page: params[:page], per_page: 9)
   end
 
@@ -18,7 +17,8 @@ class ProductsController < ApplicationController
   # GET /products/1.json
   def show
     @comment = Comment.new
-    @comments = @product.comments.order(created_at: :desc).paginate(page: params[:page], per_page: 2)
+    @comments = @product.comments.id_desc
+    @comments = @comments.paginate(page: params[:page], per_page: 5)
   end
 
   # GET /products/new
@@ -27,8 +27,7 @@ class ProductsController < ApplicationController
   end
 
   # GET /products/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /products
   # POST /products.json
@@ -36,38 +35,26 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
     respond_to do |format|
       if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
+        notice_message = 'Product was successfully created.'
+        format.html { redirect_to @product, notice: notice_message }
         format.json { render :show, status: :created, location: @product }
       else
-        flash[:error] = @product.errors.full_messages
-        flash[:model] = 'product'
-        format.html { render :new }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        handle_product_errors(flash, format, @product, :new)
       end
     end
   end
-
-  # def add_to_cart
-  #   if( current_user.id == params[:user_id].to_i )
-  #     current_user.active_order.products << @product
-  #     redirect_back fallback_location: root_url, notice: 'Product added to cart successfully'
-  #   else
-  #     redirect_to product_path(@product.id), alert: 'Your account is to be reviewed for suspenion'
-  #   end
-  # end
 
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
   def update
     respond_to do |format|
       if @product.update(product_params)
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
+        format.html do
+          redirect_to @product, notice: 'Product was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @product }
       else
-        flash[:error] = @product.errors.full_messages
-        flash[:model] = 'product'
-        format.html { render :edit }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        handle_product_errors(flash, format, @product, :edit)
       end
     end
   end
@@ -75,30 +62,39 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   # DELETE /products/1.json
   def destroy
-    # if( params[:user_id] && params[:order_id] )
-    #   current_user.active_order.order_products.where('product_id = ?', @product.id).take.destroy
-    #   redirect_to user_order_path(current_user.id, current_user.active_order.id)
-    # else
-      @product.destroy
-      respond_to do |format|
-        format.html { redirect_to products_url, notice: 'Product was successfully removed.' }
-        format.json { head :no_content }
+    @product.destroy
+    respond_to do |format|
+      format.html do
+        redirect_to products_url, notice: 'Product was successfully removed.'
       end
-    # end
+      format.json { head :no_content }
+    end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_product
-      begin
-        @product = Product.find(params[:id])  
-      rescue Exception
-        redirect_to root_url, alert: 'No valid ID provided to show the object'
-      end
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def product_params
-      params.require(:product).permit(:name, :image_url, :description, :features, :price_in_cents, :showcase_images)
+  # Use callbacks to share common setup or constraints between actions.
+  def set_product
+    @product = Product.find(params[:id])
+  rescue ActiveRecord::ActiveRecordError
+    redirect_to root_url, alert: 'No valid ID provided to show the object'
+  end
+
+  # Never trust parameters from the scary internet,
+  # only allow the white list through.
+  def product_params
+    params.require(:product).permit(
+      :name, :image_url, :description,
+      :features, :price_in_cents, :showcase_images
+    )
+  end
+
+  def handle_product_errors(flash, format, product, template)
+    flash[:error] = product.errors.full_messages
+    flash[:model] = 'product'
+    format.html { render template }
+    format.json do
+      render json: product.errors, status: :unprocessable_entity
     end
+  end
 end

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   mount ActionCable.server => '/cable'
 
-  devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'signup'}, controllers: { registrations: "user_registrations", confirmations: 'confirmations' }
+  devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'signup'}, controllers: { confirmations: 'confirmations' }
   
   resources :products do
     resources :comments
@@ -37,7 +37,7 @@ Rails.application.routes.draw do
 
   post 'static_pages/thank_you', to: 'static_pages#thank_you'
 
-  get 'branches', to: 'branches#get_coordinates'
+  get 'branches', to: 'branches#coordinates'
   #----------------------------------------------------------------
 
   # orders routes

@@ -1,7 +1,7 @@
+# product model
 class Product < ApplicationRecord
   has_many :order_products
   has_many :orders, through: :order_products
-
   has_many :comments
 
   validates :name, presence: true
@@ -10,15 +10,14 @@ class Product < ApplicationRecord
   }
 
   scope :featured, -> { order(id: :desc).limit(3) }
-
-  scope :search, -> (search_term) do
+  scope :search, lambda { |search_term|
     search_term.strip!
-    if (Rails.env.production?)
+    if Rails.env.production?
       where('lower(name) ilike ?', "%#{search_term}%")
     else
       where('lower(name) LIKE ?', "%#{search_term}%")
     end
-  end
+  }
 
   #============ product computed properties ================
   def highest_rating_comment
@@ -30,30 +29,21 @@ class Product < ApplicationRecord
   end
 
   def compute_average
-    self.comments.average(:rating)
+    comments.average(:rating)
   end
 
   def price
-    logger.debug "Converting product.price_in_cents from cents into dollars format"
-    cents = (self.price_in_cents % 100).to_s
-    logger.debug "Cents: #{cents}"
-    if ( cents.to_s.length == 1 )
-      cents = '0' + cents
-      logger.debug "Cents: #{cents} (supposed to be two digits)"
-    end
-    dollars = (self.price_in_cents / 100).to_s
-    logger.debug "Dollars except the remaining cents : #{dollars}"
-    logger.debug "To be returned: #{dollars}.#{cents}"
-    return dollars + '.' + cents
+    cents = (price_in_cents % 100).to_s
+    cents = '0' + cents if cents.to_s.length == 1
+    (price_in_cents / 100).to_s + '.' + cents
   end
 
   #============ Redis caching related methods ================
   def views
     $redis.get("product-#{id}")
   end
-  
+
   def viewed
     $redis.incr("product-#{id}")
   end
-  
 end

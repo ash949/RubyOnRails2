@@ -1,6 +1,6 @@
+# static_pages controller
 class StaticPagesController < ApplicationController
-  def index
-  end
+  def index; end
 
   def landing_page
     @products = Product.all
@@ -12,8 +12,7 @@ class StaticPagesController < ApplicationController
     @branches = Branch.all
   end
 
-  def page_404
-  end
+  def page_404; end
 
   def thank_you
     @name = params[:name]
@@ -23,6 +22,6 @@ class StaticPagesController < ApplicationController
   end
 
   def no_route
-    redirect_to static_pages_page_404_path    
+    redirect_to static_pages_page_404_path
   end
 end

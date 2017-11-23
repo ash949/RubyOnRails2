@@ -1,3 +1,4 @@
+# status model
 class Status < ApplicationRecord
   has_many :orders
 

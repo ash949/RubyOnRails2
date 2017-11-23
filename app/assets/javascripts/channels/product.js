@@ -19,8 +19,8 @@ App.product = App.cable.subscriptions.create("ProductChannel", {
       });
       $.when(
         getComment( product_id, data.comment_id, function(returned){ new_comment = returned; }),
-        getComment( product_id, data.product_highest_rating_comment_id, function(returned){ highest_rating_comment = returned; }),
-        getComment( product_id, data.product_lowest_rating_comment_id, function(returned){ lowest_rating_comment = returned; }),
+        getComment( product_id, data.highest_rating_comment_id, function(returned){ highest_rating_comment = returned; }),
+        getComment( product_id, data.lowest_rating_comment_id, function(returned){ lowest_rating_comment = returned; }),
       ).done(function(){
         $.when(
           addComment("", new_comment, highest_rating_comment, lowest_rating_comment, data.product_rating)
