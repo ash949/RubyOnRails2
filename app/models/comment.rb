@@ -14,15 +14,8 @@ class Comment < ApplicationRecord
     scope: :product, message: ': You have already reviewed this product'
   }
 
-  # after_create_commit :broadcast_comment
-  after_create_commit { BroadcastCommentJob.perform_later(self) }
+  after_create_commit { BroadcastCommentJob.perform_later(self, product) }
   scope :rating_desc, -> { order(rating: :desc) }
   scope :rating_asc, -> { order(:rating) }
   scope :id_desc, -> { order(id: :desc) }
-
-  private
-
-  def broadcast_comment
-    BroadcastCommentJob.perform_later(self, product)
-  end
 end
