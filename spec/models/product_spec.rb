@@ -20,16 +20,22 @@ describe Product do
       product.comments << FactoryBot.create(:comment, rating: 3, user: user3)
     end
 
-    it 'returns the average rating of all comments' do
-      expect(product.compute_average).to eq 3
+    describe ' - compute_average method' do
+      it 'returns the average rating of all comments' do
+        expect(product.compute_average).to eq 3
+      end
     end
 
-    it 'returns the highest rating of all comments' do
-      expect(product.highest_rating_comment.rating).to eq 4
+    describe ' - highest_rating_comment method' do
+      it 'returns the highest rating of all comments' do
+        expect(product.highest_rating_comment.rating).to eq 4
+      end
     end
 
-    it 'returns the lowest rating of all comments' do
-      expect(product.lowest_rating_comment.rating).to eq 2
+    describe ' - lowest_rating_comment method' do
+      it 'returns the lowest rating of all comments' do
+        expect(product.lowest_rating_comment.rating).to eq 2
+      end
     end
   end
 

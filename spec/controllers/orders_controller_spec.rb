@@ -7,186 +7,180 @@ describe OrdersController, type: :controller do
     FactoryBot.create(:status, status_type: 'delivered')
   end
 
-  context 'GET #index:' do
-    let(:user1) { FactoryBot.build(:user) }
-    let(:user2) { FactoryBot.build(:user) }
-    let(:admin) { FactoryBot.build(:admin) }
+  describe 'GET #index:' do
+    let(:user) { FactoryBot.build(:user) }
+    let(:subject_user) { user }
+    let(:another_user) { FactoryBot.build(:user) }
+    subject { get :index, params: { user_id: subject_user.id } }
 
     before do
-      user1.skip_confirmation!
-      user1.save
-      user2.skip_confirmation!
-      user2.save
-      admin.skip_confirmation!
-      admin.save
-      Order.delete_all
-      user1.orders << FactoryBot.build_list(:order, 4, user: nil)
-      user2.orders << FactoryBot.build_list(:order, 2, user: nil)
+      skip_confirmation_and_save_users user, another_user
+      user.orders << FactoryBot.build_list(:order, 4, user: nil)
+      another_user.orders << FactoryBot.build_list(:order, 2, user: nil)
     end
 
-    it 'not authenticated user - not_logged_in user,
-        redirected to login page' do
-      get :index, params: { user_id: user1.id }
-      expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
-      expect(response).to redirect_to new_user_session_path
-    end
-
-    it "not authorized user
-        non_admin logged_in user access another user's orders,
-        redirected to root page" do
-      sign_in user1
-      get :index, params: { user_id: user2.id }
-      expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
-      expect(response).to redirect_to root_url
-    end
-
-    it 'orders page showed (5 orders if do not have active order)
-        authorized user - non_admin logged_in user,
-        redirected to his orders page' do
-      sign_in user1
-      get :index, params: { user_id: user1.id }
-      expect(assigns(:orders).length).to eq 5
-      expect(response).to render_template('index')
-    end
-
-    it 'orders page showed (4 orders if he already have active order)
-        authorized user - non_admin logged_in user,
-        redirected to his orders page' do
-      sign_in user1
-      user1.orders.each do |order|
-        order.status = Status.canceled
+    context ' - user is not logged in' do
+      it ' - renders login page and displays not authenticated user message' do
+        expect(subject).to redirect_to new_user_session_path
+        expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
       end
-      user1.orders.last.status = Status.active
-      user1.orders.last.save
-      get :index, params: { user_id: user1.id }
-      expect(assigns(:orders).length).to eq 4
-      expect(response).to render_template('index')
     end
 
-    it 'orders page showed
-        authorized user - admin logged_in user,
-        redirected to orders page' do
-      sign_in admin
-      get :index, params: { user_id: admin.id }
-      expect(assigns(:orders).length).to eq 6
-      expect(response).to render_template('index')
-    end
-  end
+    context ' - user is logged in' do
+      before do
+        sign_in user
+      end
 
-  # =========================================================================
-  context 'GET #show:' do
-    let(:user1) { FactoryBot.build(:user) }
-    let(:user2) { FactoryBot.build(:user) }
-    let(:admin) { FactoryBot.build(:admin) }
+      context " - user tries viewing another's orders" do
+        let(:subject_user) { another_user }
+        it ' - renders root page and displays not authorized user message' do
+          expect(subject).to redirect_to root_url
+          expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
+        end
+      end
 
-    before do
-      user1.skip_confirmation!
-      user1.save
-      user2.skip_confirmation!
-      user2.save
-      admin.skip_confirmation!
-      admin.save
-      user1.orders << FactoryBot.build(:order, user: nil)
-      user2.orders << FactoryBot.build(:order, user: nil)
-    end
+      context ' - user tries viewing his orders' do
+        context ' - there is already an active order' do
+          before do
+            user.orders.each do |order|
+              order.status = Status.canceled
+            end
+            user.orders.last.status = Status.active
+            user.orders.last.save
+          end
+          it '' do
+            expect(subject).to render_template('index')
+            expect(assigns(:orders).length).to eq 4
+          end
+        end
 
-    it 'not authenticated user - not_logged_in user,
-        redirected to login page' do
-      get :show, params: { user_id: user1.id, id: user1.orders.first.id }
-      expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
-      expect(response).to redirect_to new_user_session_path
-    end
+        context ' - there is no active order' do
+          it '' do
+            expect(subject).to render_template('index')
+            expect(assigns(:orders).length).to eq 5
+          end
+        end
+      end
 
-    it "not authorized user
-        non_admin logged_in user trying to access someone's else order,
-        redirected to root page" do
-      sign_in user1
-      get :show, params: { user_id: user2.id, id: user1.orders.first.id }
-      expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
-      expect(response).to redirect_to root_url
-    end
-
-    it 'order page showed
-        authorized user - non_admin logged_in user,
-        redirected to his orders page' do
-      sign_in user1
-      get :show, params: { user_id: user1.id, id: user1.orders.first.id }
-      expect(response).to be_ok
-      expect(response).to render_template('show')
-    end
-
-    it 'no valid id provided even if user is authorized
-        non_admin logged_in user,
-        redirected to his orders page' do
-      sign_in user1
-      get :show, params: { user_id: 'test', id: 'test' }
-      expect(flash[:alert]).to eq(NO_ID_PROVIDED_MESSAGE)
-      expect(response).to redirect_to root_url
-    end
-
-    it 'order page showed
-        authorized user - admin logged_in user,
-        redirected to orders page' do
-      sign_in admin
-      get :show, params: { user_id: user2.id, id: user2.orders.first.id }
-      expect(response).to be_ok
-      expect(response).to render_template('show')
+      context ' - user is admin' do
+        let(:user) { FactoryBot.build(:admin) }
+        it ' - renders orders page and will contain 6 orders total' do
+          expect(subject).to render_template('index')
+          expect(assigns(:orders).length).to eq 6
+        end
+      end
     end
   end
 
   # =========================================================================
-  context 'DELETE #destroy:' do
-    let(:user1) { FactoryBot.build(:user) }
-    let(:user2) { FactoryBot.build(:user) }
-    let(:admin) { FactoryBot.build(:admin) }
+  describe 'GET #show:' do
+    let(:user) { FactoryBot.build(:user) }
+    let(:subject_user) { user }
+    let(:subject_order_id) { subject_user.orders.first.id }
+    let(:another_user) { FactoryBot.build(:user) }
+    subject do
+      get :show, params: {
+        user_id: subject_user.id, id: subject_order_id
+      }
+    end
 
     before do
-      user1.skip_confirmation!
-      user1.save
-      user2.skip_confirmation!
-      user2.save
-      admin.skip_confirmation!
-      admin.save
-      Order.delete_all
-      user1.orders << FactoryBot.build(:order, user: nil)
-      user1.orders << FactoryBot.build(:order, user: nil)
-      user2.orders << FactoryBot.build(:order, user: nil)
-      user1.orders.first.status = Status.canceled
-      user1.orders.first.save
-      user1.orders.last.status = Status.active
-      user1.orders.last.save
+      skip_confirmation_and_save_users user, another_user
+      user.orders << FactoryBot.build(:order, user: nil)
+      another_user.orders << FactoryBot.build(:order, user: nil)
     end
 
-    it "not authorized - non-admin logged_in user want to delete other's order,
-        redirected to root page" do
-      sign_in user1
-      delete :destroy, params: { user_id: user2.id, id: user2.orders.first.id }
-      expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
-      expect(response).to redirect_to root_url
+    context ' - user is not logged in' do
+      it ' - renders login page and displays not authenticated user message' do
+        expect(subject).to redirect_to new_user_session_path
+        expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
+      end
     end
 
-    it 'not authorized - non-admin logged_in user want to delete his order,
-        redirected to root page' do
-      sign_in user1
-      delete :destroy, params: { user_id: user1.id, id: user1.orders.first.id }
-      expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
-      expect(response).to redirect_to root_url
+    context ' - user is logged in' do
+      before do
+        sign_in user
+      end
+
+      context " - user tries viewing another's order" do
+        let(:subject_user) { another_user }
+        it ' - renders root page and displays not authorized user message' do
+          expect(subject).to redirect_to root_url
+          expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
+        end
+      end
+
+      context ' - user tries viewing his order' do
+        it ' - displays order page' do
+          expect(subject).to be_ok
+          expect(subject).to render_template('show')
+        end
+      end
+
+      context " - access an invalid order id or doesn't exist" do
+        let(:subject_order_id) { 'bla' }
+        it ' - renders root page and displays invalid order_id message' do
+          expect(subject).to redirect_to root_url
+          expect(flash[:alert]).to eq(NO_ID_PROVIDED_MESSAGE)
+        end
+      end
+
+      context " - user is admin and want to access another's order" do
+        let(:user) { FactoryBot.build(:admin) }
+        let(:subject_user) { another_user }
+        it ' - renders order page of the other user' do
+          expect(subject).to be_ok
+          expect(subject).to render_template('show')
+        end
+      end
+    end
+  end
+
+  # =========================================================================
+  describe 'DELETE #destroy:' do
+    let(:user) { FactoryBot.build(:user) }
+    let(:subject_user) { user }
+    subject do
+      delete :destroy, params: {
+        user_id: subject_user.id, id: subject_user.orders.first.id
+      }
     end
 
-    it 'not authenticated - not logged_in user,
-        redirected to login page' do
-      delete :destroy, params: { user_id: user1.id, id: user1.orders.first.id }
-      expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
-      expect(response).to redirect_to new_user_session_path
+    before do
+      skip_confirmation_and_save_users user
+      user.orders << FactoryBot.build_list(:order, 2, user: nil)
+      user.orders.first.status = Status.canceled
+      user.orders.first.save
+      user.orders.last.status = Status.active
+      user.orders.last.save
     end
 
-    it 'non active order destroyed
-        admin user can delete any order,
-        redirected to orders page' do
-      sign_in admin
-      delete :destroy, params: { user_id: user1.id, id: user1.orders.first.id }
-      expect(user1.orders.reload.size).to eq(1)
-      expect(response).to redirect_to user_orders_path(user1.id)
+    context ' - user is not logged in' do
+      it ' - renders login page and displays not authenticated user message' do
+        expect(subject).to redirect_to new_user_session_path
+        expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
+      end
+    end
+
+    context ' - user is logged in' do
+      before do
+        sign_in user
+      end
+
+      context ' - user is not admin' do
+        it ' - renders root page and displays not authorized message' do
+          expect(subject).to redirect_to root_url
+          expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
+        end
+      end
+
+      context ' - user is admin' do
+        let(:user) { FactoryBot.build(:admin) }
+        it ' - order will be deleted' do
+          expect(subject).to redirect_to user_orders_path(user.id)
+          expect(user.orders.reload.size).to eq(1)
+        end
+      end
     end
   end
 end

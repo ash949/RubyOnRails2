@@ -24,7 +24,6 @@ class PaymentsController < ApplicationController
 
   def deliver_charge_paid_email_redirect
     current_user.active_order.deliver
-    current_user.active_order
     redirect_to user_orders_path(current_user.id),
                 notice: 'transaction has successfully been completed'
   end

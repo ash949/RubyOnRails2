@@ -1,13 +1,7 @@
 require 'rails_helper'
 
 describe UsersController, type: :controller do
-  before(:context) do
-    FactoryBot.create(:status, status_type: 'active')
-    FactoryBot.create(:status, status_type: 'canceled')
-    FactoryBot.create(:status, status_type: 'delivered')
-  end
-
-  context 'GET #index:' do
+  describe 'GET #index:' do
     it 'renders users index template' do
       get :index
       expect(response).to be_ok
@@ -16,328 +10,318 @@ describe UsersController, type: :controller do
   end
 
   # =======================================================================
-  context 'GET #show' do
-    let(:user1) { FactoryBot.build(:user) }
-    let(:user2) { FactoryBot.build(:user) }
+  describe 'GET #show' do
+    let(:user) { FactoryBot.build(:user) }
+    let(:another_user) { FactoryBot.build(:user) }
+    let(:subject_user_id) { user.id }
     let(:admin) { FactoryBot.build(:admin) }
+    subject { post :show, params: { id: subject_user_id } }
 
     before do
-      user1.skip_confirmation!
-      user1.save
-      user2.skip_confirmation!
-      user2.save
-      admin.skip_confirmation!
-      admin.save
+      skip_confirmation_and_save_users user, another_user
     end
 
-    it 'not authorized - non-admin logged_in user,
-        redirected to root page' do
-      sign_in user2
-      get :show, params: { id: user1.id }
-      expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
-      expect(response).to redirect_to root_url
+    context ' - user is not logged in' do
+      it ' - renders login page and display not authenticated user message' do
+        expect(subject).to redirect_to new_user_session_path
+        expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
+      end
     end
 
-    it 'user profile showed
-        authorized to view his profile - non-admin logged_in user,
-        render his profile page' do
-      sign_in user1
-      post :show, params: { id: user1.id }
-      expect(response).to be_ok
-      expect(response).to render_template('show')
-    end
+    context ' - user is logged in' do
+      before do
+        sign_in user
+      end
 
-    it 'no valid user id provided - non-admin logged_in user,
-        redirected to root_url' do
-      sign_in user1
-      post :show, params: { id: 'edit' }
-      expect(flash[:alert]).to eq(NO_ID_PROVIDED_MESSAGE)
-      expect(response).to redirect_to root_url
-    end
+      context ' - user is trying to view his profile' do
+        it ' - user profile is displayed' do
+          expect(subject).to be_ok
+          expect(subject).to render_template('show')
+        end
+      end
 
-    it 'not authenticated - non-admin not logged_in user,
-        redirected to login page' do
-      get :show, params: { id: user1.id }
-      expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
-      expect(response).to redirect_to new_user_session_path
-    end
+      context " - user is trying to view another's profile" do
+        let(:subject_user_id) { another_user.id }
+        it ' - renders root page and displays not authorized user message' do
+          expect(subject).to redirect_to root_url
+          expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
+        end
+      end
 
-    it "admin user can update a user,
-        redirected to user's show page" do
-      sign_in admin
-      get :show, params: { id: user1.id }
-      expect(response).to be_ok
-      expect(response).to render_template('show')
+      context " - user is admin and is trying to view another's profile" do
+        let(:user) { FactoryBot.build(:admin) }
+        let(:subject_user_id) { another_user.id }
+        it ' - user profile is displayed' do
+          expect(subject).to be_ok
+          expect(subject).to render_template('show')
+        end
+      end
+
+      context ' - no valid user_id provided' do
+        let(:subject_user_id) { 'asdasd' }
+        it ' - renders root page and displays invalid id message' do
+          expect(subject).to redirect_to root_url
+          expect(flash[:alert]).to eq(NO_ID_PROVIDED_MESSAGE)
+        end
+      end
     end
   end
 
   # =======================================================================
-  context 'GET #new' do
-    let(:user1) { User.new }
-    let(:user2) { FactoryBot.build(:user) }
-    let(:admin) { FactoryBot.build(:admin) }
+  describe 'GET #new' do
+    subject { get :new }
 
-    before do
-      user2.skip_confirmation!
-      user2.save
-      admin.skip_confirmation!
-      admin.save
+    context ' - user is not logged in' do
+      it ' - renders login page and displays not authenticated user message' do
+        expect(subject).to redirect_to new_user_session_path
+        expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
+      end
     end
 
-    it 'user not authorized - user is logged in and non admin' do
-      sign_in user2
-      get :new
-      expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
-      expect(response).to redirect_to root_url
-    end
+    context ' - user is logged in' do
+      before do
+        skip_confirmation_and_save_users user
+        sign_in user
+      end
 
-    it 'user not authenticated - user is not logged in and non admin' do
-      get :new
-      expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
-      expect(response).to redirect_to new_user_session_path
-    end
+      context ' - user is not admin' do
+        let(:user) { FactoryBot.build(:user) }
+        it ' - renders root page and displays not authorized user message' do
+          expect(subject).to redirect_to root_url
+          expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
+        end
+      end
 
-    it 'renders users new template if user is logged in and admin' do
-      sign_in admin
-      get :new
-      expect(response).to be_ok
-      expect(response).to render_template('new')
-    end
-  end
-
-  # =======================================================================
-  context 'GET #edit: ' do
-    let(:user1) { FactoryBot.build(:user) }
-    let(:user2) { FactoryBot.build(:user) }
-    let(:admin) { FactoryBot.build(:admin) }
-
-    before do
-      user1.skip_confirmation!
-      user1.save
-      user2.skip_confirmation!
-      user2.save
-      admin.skip_confirmation!
-      admin.save
-    end
-
-    it 'user not authorized - user is logged in and non admin' do
-      sign_in user2
-      get :edit, params: { id: user1.id }
-      expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
-      expect(response).to redirect_to root_url
-    end
-
-    it 'user not authenticated - user is not logged in and non admin' do
-      get :edit, params: { id: user1.id }
-      expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
-      expect(response).to redirect_to new_user_session_path
-    end
-
-    it 'renders users edit template if user is logged in and admin' do
-      sign_in admin
-      get :edit, params: { id: user1.id }
-      expect(response).to be_ok
-      expect(response).to render_template('edit')
+      context ' - user is admin' do
+        let(:user) { FactoryBot.build(:admin) }
+        it ' - renders new user page' do
+          expect(subject).to be_ok
+          expect(subject).to render_template('new')
+        end
+      end
     end
   end
 
   # =======================================================================
-  context 'DELETE #destroy:' do
-    let(:user1) { FactoryBot.build(:user) }
-    let(:user2) { FactoryBot.build(:user) }
-    let(:admin) { FactoryBot.build(:admin) }
+  describe 'GET #edit: ' do
+    let(:subject_user) { FactoryBot.build(:user) }
+    subject { get :edit, params: { id: subject_user.id } }
 
-    before do
-      user1.skip_confirmation!
-      user1.save
-      user2.skip_confirmation!
-      user2.save
-      admin.skip_confirmation!
-      admin.save
+    before { skip_confirmation_and_save_users subject_user }
+
+    context ' - user is not logged in' do
+      it ' - renders login page and displays not authenticated user message' do
+        expect(subject).to redirect_to new_user_session_path
+        expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
+      end
     end
 
-    it 'not authorized - non-admin logged_in user,
-        redirected to root page' do
-      sign_in user2
-      delete :destroy, params: { id: user1.id }
-      expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
-      expect(response).to redirect_to root_url
-    end
+    context ' - user is logged in' do
+      before do
+        skip_confirmation_and_save_users user
+        sign_in user
+      end
 
-    it 'not authenticated - not logged_in user,
-        redirected to login page' do
-      delete :destroy, params: { id: user1.id }
-      expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
-      expect(response).to redirect_to new_user_session_path
-    end
+      context ' - user is not admin' do
+        let(:user) { FactoryBot.build(:user) }
+        it ' - renders root page and displays not authorized user message' do
+          expect(subject).to redirect_to root_url
+          expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
+        end
+      end
 
-    it 'admin user can delete a user,
-        redirected to users page' do
-      sign_in admin
-      id = user1.id
-      delete :destroy, params: { id: user1.id }
-      expect(User.where("id = #{id}").size).to eq(0)
-      expect(response).to redirect_to users_path
+      context ' - user is admin' do
+        let(:user) { FactoryBot.build(:admin) }
+        it ' - renders edit user page' do
+          expect(subject).to be_ok
+          expect(subject).to render_template('edit')
+        end
+      end
     end
   end
 
   # =======================================================================
-  context 'POST #create:' do
-    let(:user1) { User.new }
-    let(:user2) { FactoryBot.build(:user) }
-    let(:admin) { FactoryBot.build(:admin) }
+  describe 'DELETE #destroy:' do
+    let(:subject_user) { FactoryBot.build(:user) }
+    subject { delete :destroy, params: { id: subject_user.id } }
 
-    before do
-      user2.skip_confirmation!
-      user2.save
-      admin.skip_confirmation!
-      admin.save
+    before { skip_confirmation_and_save_users subject_user }
+
+    context ' - user is not logged in' do
+      it ' - renders login page and displays not authenticated user message' do
+        expect(subject).to redirect_to new_user_session_path
+        expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
+      end
     end
 
-    it 'not authorized - non-admin logged_in user,
-        redirected to root page' do
-      sign_in user2
+    context ' - user is logged in' do
+      before do
+        skip_confirmation_and_save_users user
+        sign_in user
+      end
+
+      context ' - user is not admin' do
+        let(:user) { FactoryBot.build(:user) }
+        it ' - renders root page and displays not authorized user message' do
+          expect(subject).to redirect_to root_url
+          expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
+        end
+      end
+
+      context ' - user is admin' do
+        let(:user) { FactoryBot.build(:admin) }
+        it ' - user will be deleted' do
+          expect(subject).to redirect_to users_path
+          expect(User.all.reload.where("id = #{subject_user.id}").size).to eq(0)
+        end
+      end
+    end
+  end
+
+  # =======================================================================
+  describe 'POST #create:' do
+    subject do
       post :create, params: {
         user: {
-          first_name: '', last_name: '', email: 'test0@test0',
+          first_name: '', last_name: '', email: 'test_inserted@test',
           password: '123123', password_confirmation: '123123', admin: '0'
         }
       }
-      expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
-      expect(response).to redirect_to root_url
     end
 
-    it 'not authenticated - non-admin not logged_in user,
-        redirected to login page' do
-      post :create, params: {
-        user: {
-          first_name: '', last_name: '', email: 'test0@test0',
-          password: '123123', password_confirmation: '123123', admin: '0'
-        }
-      }
-      expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
-      expect(response).to redirect_to new_user_session_path
+    context ' - user is not logged in' do
+      it ' - renders login page and displays not authenticated user message' do
+        expect(subject).to redirect_to new_user_session_path
+        expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
+      end
     end
 
-    it "admin user can create a user,
-        redirected to user's show page" do
-      sign_in admin
-      post :create, params: {
-        user: {
-          first_name: '', last_name: '', email: 'test_inserted@test_test',
-          password: '123123', password_confirmation: '123123', admin: '0'
-        }
-      }
-      expect(
-        User.all.reload.find(
-          assigns(:user).id
-        ).email == 'test_inserted@test_test'
-      ).to eq(true)
-      expect(
-        response
-      ).to redirect_to user_path(
-        User.all.where("email = 'test_inserted@test_test'").first.id
-      )
+    context ' - user is logged in' do
+      before do
+        skip_confirmation_and_save_users user
+        sign_in user
+      end
+
+      context ' - user is not admin' do
+        let(:user) { FactoryBot.build(:user) }
+        it ' - renders root page and displays not authorized user message' do
+          expect(subject).to redirect_to root_url
+          expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
+        end
+      end
+
+      context ' - user is admin' do
+        let(:user) { FactoryBot.build(:admin) }
+        it ' - user will be created' do
+          expect(
+            subject
+          ).to redirect_to user_path(
+            User.all.where("email = 'test_inserted@test'").first.id
+          )
+          expect(
+            User.all.reload.find(
+              assigns(:user).id
+            ).email == 'test_inserted@test'
+          ).to eq(true)
+        end
+      end
     end
   end
 
   # =======================================================================
-  context 'PATCH #update:' do
-    let(:user1) { FactoryBot.build(:user) }
-    let(:user2) { FactoryBot.build(:user) }
-    let(:admin) { FactoryBot.build(:admin) }
+  describe 'PATCH #update:' do
+    let(:user) { FactoryBot.build(:user) }
+    let(:another_user) { FactoryBot.build(:user) }
+    let(:subject_user) { user }
 
-    before do
-      user1.skip_confirmation!
-      user1.save
-      user2.skip_confirmation!
-      user2.save
-      admin.skip_confirmation!
-      admin.save
-    end
-
-    it 'not authorized - non-admin logged_in user,
-        redirected to root page' do
-      sign_in user2
-      post :update, params: {
-        id: user1.id,
-        user: {
-          first_name: 'test', last_name: '', email: 'test0@test0',
-          password: '123123', password_confirmation: '123123', admin: '0'
-        }
-      }
-      expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
-      expect(response).to redirect_to root_url
-    end
-
-    it 'user updated - authorized to change first_name, last_name and password
-        non-admin logged_in user,
-        redirected to root page' do
-      sign_in user1
-      post :update, params: {
-        id: user1.id,
+    subject do
+      patch :update, params: {
+        id: subject_user.id,
         user: {
           first_name: 'testing_f', last_name: 'testing_l',
           password: '112233', password_confirmation: '112233'
         }
       }
-      expect(
-        User.all.find(user1.id).first_name == 'testing_f' &&
-        User.all.find(user1.id).last_name == 'testing_l'
-      ).to eq(true)
-      expect(
-        response
-      ).to redirect_to user_path(
-        User.all.where("first_name = 'testing_f'").first.id
-      )
     end
 
-    it 'user not updated - not authorized to change his email and admin flag
-        non-admin logged_in user,
-        redirected to root page' do
-      sign_in user1
-      post :update, params: {
-        id: user1.id,
-        user: {
-          first_name: 'test', last_name: '', email: 'test00@test00',
-          password: '123123', password_confirmation: '123123', admin: '1'
-        }
-      }
-      expect(user1.email != 'test00@test00' && user1.admin != true).to eq true
+    before { skip_confirmation_and_save_users user, another_user }
+
+    context ' - user is not logged in' do
+      it ' - renders login page and displays not authenticated user message' do
+        expect(subject).to redirect_to new_user_session_path
+        expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
+      end
     end
 
-    it 'not authenticated - non-admin not logged_in user,
-        redirected to login page' do
-      post :update, params: {
-        id: user1.id,
-        user: {
-          first_name: 'test', last_name: '', email: 'test0@test0',
-          password: '123123', password_confirmation: '123123', admin: '0'
-        }
-      }
-      expect(flash[:alert]).to eq(NOT_AUTHENTICATED_MESSAGE)
-      expect(response).to redirect_to new_user_session_path
-    end
+    context ' - user is logged in' do
+      before do
+        skip_confirmation_and_save_users user
+        sign_in user
+      end
 
-    it "admin user can update a user,
-        redirected to user's show page" do
-      sign_in admin
-      post :update, params: {
-        id: user1.id,
-        user: {
-          first_name: 'testing_f', last_name: '', email: 'test00@test00',
-          password: '123123', password_confirmation: '123123', admin: '0'
-        }
-      }
-      expect(
-        User.all.find(user1.id).first_name == 'testing_f' &&
-        User.all.find(user1.id).email == 'test00@test00'
-      ).to eq(true)
-      expect(
-        response
-      ).to redirect_to user_path(
-        User.all.where("email = 'test00@test00'").first.id
-      )
+      context ' - user is not admin' do
+        context ' - user trying to edit his profile (name and password)' do
+          it ' - renders user profile page
+              and first_name and last_name and password will be upadated' do
+            expect(
+              subject
+            ).to redirect_to user_path(
+              User.all.where("first_name = 'testing_f'").first.id
+            )
+            expect(
+              User.all.find(subject_user.id).first_name == 'testing_f' &&
+              User.all.find(subject_user.id).last_name == 'testing_l'
+            ).to eq(true)
+          end
+        end
+
+        context ' - user trying to edit his profile (email and admin flag)' do
+          subject do
+            patch :update, params: {
+              id: subject_user.id,
+              user: { email: 'test00@test00', admin: '1' }
+            }
+          end
+          it ' - email and admin flag will not be updated' do
+            expect(
+              subject_user.email != 'test00@test00' &&
+              subject_user.admin != true
+            ).to eq true
+          end
+        end
+
+        context " - user trying to edit another's profile" do
+          let(:subject_user) { another_user }
+          it ' - renders root page and displays not authorized user message' do
+            expect(subject).to redirect_to root_url
+            expect(flash[:alert]).to eq(NOT_AUTHORIZED_MESSAGE)
+          end
+        end
+      end
+
+      context ' - user is admin' do
+        let(:user) { FactoryBot.build(:admin) }
+        let(:subject_user) { another_user }
+        subject do
+          patch :update, params: {
+            id: subject_user.id,
+            user: {
+              first_name: 'testing_f', last_name: 'testing_l',
+              email: 'test00@test00', password: '111111',
+              password_confirmation: '111111', admin: '1'
+            }
+          }
+        end
+        it ' - user will be updated' do
+          expect(subject).to redirect_to user_path(subject_user.id)
+          expect(
+            User.all.find(subject_user.id).first_name == 'testing_f' &&
+            User.all.find(subject_user.id).last_name == 'testing_l' &&
+            User.all.find(subject_user.id).email == 'test00@test00' &&
+            User.all.find(subject_user.id).admin == true
+          ).to eq(true)
+        end
+      end
     end
   end
 end
